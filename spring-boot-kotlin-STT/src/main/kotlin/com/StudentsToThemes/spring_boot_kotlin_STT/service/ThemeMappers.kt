@@ -11,6 +11,9 @@ fun ThemeEntity.toResponseDto() = ThemeResponseDto(
     description = this.description,
     author = this.author,
     priorityStudents = this.priorityStudents.map { it.toResponseDto() },
+    studentPriorities = this.priorityStudents.mapIndexed { index, student ->
+        student.id!! to index
+    }.toMap(),
     createdAt = this.createdAt,
     updatedAt = this.updatedAt
 )
@@ -20,5 +23,5 @@ fun CreateThemeRequest.toEntity() = ThemeEntity(
     name = this.name,
     description = this.description,
     author = this.author
-    // priorityStudents will maybe be set by service, I am not doing it now
+    // priorityStudents will be set by service
 )

@@ -10,6 +10,7 @@ data class ThemeResponseDto(
     val description: String,
     val author: String,
     val priorityStudents: List<StudentResponseDto>,
+    val studentPriorities: Map<UUID, Int>, // studentId -> priority
     val createdAt: Instant? = null,
     val updatedAt: Instant? = null
 )

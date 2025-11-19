@@ -7,20 +7,20 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
-class StudentsExceptionHandler {
-    private val log = LoggerFactory.getLogger(StudentsExceptionHandler::class.java)
-
+class ThemeExceptionHandler {
     /**
-     * Handle student not found exception.
-     * @param ex the StudentNotFoundException to handle
+     * Handle theme not found exception.
+     * @param ex the ThemeNotFoundException to handle
      * @return a map containing the error code and message
      */
-    @ExceptionHandler(StudentNotFoundException::class)
+    private val log = LoggerFactory.getLogger(ThemeExceptionHandler::class.java)
+
+    @ExceptionHandler(ThemeNotFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    fun onStudentNotFoundException(ex: StudentNotFoundException): Map<String, String?> {
-        log.warn("Student not found: {}", ex.message)
+    fun onThemeNotFoundException(ex: ThemeNotFoundException): Map<String, String?> {
+        log.warn("Theme not found: {}", ex.message)
         return mapOf(
-            "errorCode" to "STUDENT_NOT_FOUND",
+            "errorCode" to "THEME_NOT_FOUND",
             "message" to ex.message
         )
     }
