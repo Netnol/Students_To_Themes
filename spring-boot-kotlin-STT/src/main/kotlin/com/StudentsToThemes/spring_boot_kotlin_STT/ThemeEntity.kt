@@ -8,6 +8,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.JoinTable
 import jakarta.persistence.ManyToMany
+import jakarta.persistence.OrderColumn
 import jakarta.persistence.Table
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
@@ -29,13 +30,14 @@ class ThemeEntity (
     var description: String = "",
     @Column(name = "author")
     var author: String = "",
-    // many-to-many relationship with StudentEntity
+    // many-to-many relationship with StudentEntity with order
     @ManyToMany
     @JoinTable(
         name = "theme_student_priority",
         joinColumns = [JoinColumn(name = "theme_id")],
         inverseJoinColumns = [JoinColumn(name = "student_id")]
     )
+    @OrderColumn(name = "priority_order") // Saves order of students
     var priorityStudents: MutableList<StudentEntity> = mutableListOf(),
     @CreationTimestamp
     var createdAt: Instant = Instant.now(),
