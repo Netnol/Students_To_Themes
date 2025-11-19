@@ -6,7 +6,10 @@ import java.util.UUID
 data class StudentResponseDto (
     val id: UUID,
     val name: String,
-    val cvText: String,
-    val createdAt: Instant? = null,
-    val updatedAt: Instant? = null
+    val hardSkill: String,
+    val background: String,
+    val interests: String,
+    val timeInWeek: String?,
+    val createdAt: Instant,
+    val updatedAt: Instant
 )
