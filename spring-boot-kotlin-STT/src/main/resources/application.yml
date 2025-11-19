@@ -8,5 +8,15 @@ spring:
     password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
+logging:
+  level:
+    com.StudentsToThemes.spring_boot_kotlin_STT: DEBUG
+    org.springframework: INFO
+    org.hibernate: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"
+  file:
+    name: "application.log"
+
 server:
   port: ${PORT:8080}
