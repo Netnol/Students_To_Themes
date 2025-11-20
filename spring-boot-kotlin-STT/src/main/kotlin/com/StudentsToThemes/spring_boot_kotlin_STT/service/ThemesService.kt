@@ -1,6 +1,7 @@
 package com.StudentsToThemes.spring_boot_kotlin_STT.service
 
 import com.StudentsToThemes.spring_boot_kotlin_STT.CreateThemeRequest
+import com.StudentsToThemes.spring_boot_kotlin_STT.StudentEntity
 import com.StudentsToThemes.spring_boot_kotlin_STT.StudentNotFoundException
 import com.StudentsToThemes.spring_boot_kotlin_STT.StudentWithPriorityDto
 import com.StudentsToThemes.spring_boot_kotlin_STT.ThemeNotFoundException
@@ -120,6 +121,23 @@ class ThemesService(
     }
 
     /**
+     * Delete a theme by id.
+     * @param themeId the id of the theme to delete
+     * @return the deleted theme
+     */
+    fun deleteTheme(themeId: UUID): ThemeResponseDto {
+        log.info("Deleting theme: {}", themeId)
+
+        val theme = themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+
+        themesRepository.delete(theme)
+        log.info("Successfully deleted theme: {}", themeId)
+
+        return theme.toResponseDto()
+    }
+
+    /**
      * Add a student to a theme.
      * @param themeId the id of the theme to add the student to
      * @param studentId the id of the student to add
@@ -134,6 +152,10 @@ class ThemesService(
         val student = studentsRepository.findById(studentId)
             .orElseThrow { StudentNotFoundException(studentId) }
 
+        if (theme.priorityStudents.contains(student)) {
+            log.info("Student {} is already in theme {}", studentId, themeId)
+            return theme.toResponseDto()
+        }
         // Add student to the end of the list (lowest priority)
         theme.priorityStudents.add(student)
 
@@ -153,7 +175,7 @@ class ThemesService(
         log.info("Adding students {} to theme {}", studentIds, themeId)
 
         val theme = themesRepository.findById(themeId)
-            .orElseThrow{ThemeNotFoundException(themeId)}
+            .orElseThrow { ThemeNotFoundException(themeId) }
 
         val students = studentsRepository.findAllById(studentIds)
         val foundIds = students.map { it.id!! }
@@ -166,10 +188,42 @@ class ThemesService(
 
         log.info("Found {} students with given filters", students.size)
 
-        theme.priorityStudents.addAll(students)
+        // Create a list of students to add
+        val studentsToAdd = mutableListOf<StudentEntity>()
+
+        // Check if each student is already in the theme and add them to the list if not
+        students.forEach { student ->
+            if (theme.priorityStudents.contains(student)) {
+                log.info("Student {} is already in theme {}", student.id, themeId)
+            } else {
+                studentsToAdd.add(student)
+            }
+        }
+
+        theme.priorityStudents.addAll(studentsToAdd)
 
         val updatedTheme = themesRepository.save(theme)
-        log.info("Successfully added students to theme")
+        log.info("Successfully added {} students to theme", studentsToAdd.size)
+
+        return updatedTheme.toResponseDto()
+    }
+
+    /**
+     * Change the activity of students in a theme.
+     * @param themeId the id of the theme to change the activity of the students
+     * @param active the new activity status
+     * @return the updated theme
+     */
+    fun changeStudentsActivityInTheme(themeId: UUID, active: Boolean): ThemeResponseDto {
+        log.info("Changing activity of students in theme {}", themeId)
+
+        val theme = themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+
+        theme.priorityStudents.forEach { it.active = active }
+
+        val updatedTheme = themesRepository.save(theme)
+        log.info("Successfully changed activity of students in theme {}", themeId)
 
         return updatedTheme.toResponseDto()
     }
