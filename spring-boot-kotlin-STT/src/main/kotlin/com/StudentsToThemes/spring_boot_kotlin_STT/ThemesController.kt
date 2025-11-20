@@ -72,6 +72,12 @@ class ThemesController(
         return themesService.updateThemePriority(themeId, updateRequest)
     }
 
+    /**
+     * Update an existing theme.
+     * @param themeId the id of the theme to update
+     * @param updateRequest the request containing the updated theme details
+     * @return the updated theme
+     */
     @PutMapping("/{themeId}")
     fun updateTheme(
         @PathVariable themeId: UUID,
@@ -79,6 +85,17 @@ class ThemesController(
     ): ThemeResponseDto {
         log.debug("PUT /themes/{}", themeId)
         return themesService.updateTheme(themeId, updateRequest)
+    }
+
+    /**
+     * Delete a theme by id.
+     * @param themeId the id of the theme to delete
+     * @return the deleted theme
+     */
+    @DeleteMapping("/{themeId}")
+    fun deleteTheme(@PathVariable themeId: UUID): ThemeResponseDto {
+        log.debug("DELETE /themes/{}", themeId)
+        return themesService.deleteTheme(themeId)
     }
 
     /**
@@ -109,6 +126,21 @@ class ThemesController(
     ): ThemeResponseDto {
         log.debug("POST /themes/{}/students", themeId)
         return themesService.addStudentsToTheme(themeId, studentIds)
+    }
+
+    /**
+     * Change the activity of students in a theme.
+     * @param themeId the id of the theme to change the activity of the students
+     * @param active the new activity status
+     * @return the updated theme
+     */
+    @PutMapping("/{themeId}/students/active")
+    fun changeStudentsActivityInTheme(
+        @PathVariable themeId: UUID,
+        @RequestBody active: Boolean
+    ): ThemeResponseDto {
+        log.debug("PUT /themes/{}/students/active", themeId)
+        return themesService.changeStudentsActivityInTheme(themeId, active)
     }
 
     /**

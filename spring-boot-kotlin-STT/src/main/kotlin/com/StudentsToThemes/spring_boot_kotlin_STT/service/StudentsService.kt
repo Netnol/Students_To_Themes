@@ -177,6 +177,42 @@ class StudentsService(
     }
 
     /**
+     * Change the activity of a student.
+     * @param id the id of the student to change the activity
+     * @param active the new activity status
+     * @return the updated student
+     */
+    fun changeStudentActivity(id: UUID, active: Boolean): StudentResponseDto {
+        log.info("Changing activity of student with id: {}", id)
+        val existingStudent = studentsRepository
+            .findById(id)
+            .orElseThrow {
+                log.error("Cannot change activity of student - student not found with id: {}", id)
+                throw StudentNotFoundException(id)
+            }
+
+        existingStudent.active = active
+        existingStudent.updatedAt = Instant.now()
+
+        val updatedStudent = studentsRepository.save(existingStudent)
+        log.info("Successfully changed activity of student with id: {}", id)
+        return updatedStudent.toResponseDto()
+    }
+
+    /**
+     * Change the activity of students.
+     * @param ids the ids of the students to change the activity
+     * @param active the new activity status
+     */
+    fun changeStudentActivities(ids: List<UUID>, active: Boolean) {
+        log.info("Changing activity of students with ids: {}", ids)
+        val students = studentsRepository.findAllById(ids)
+        students.forEach { it.active = active }
+        studentsRepository.saveAll(students)
+        log.info("Successfully changed activity of students with ids: {}", ids)
+    }
+
+    /**
      * Delete a student by id.
      * @param id the id of the student to delete
      */
