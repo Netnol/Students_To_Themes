@@ -129,30 +129,28 @@ class StudentsController(
     /**
      * Change the activity of a student.
      * @param id the id of the student to change the activity
-     * @param updateRequest the request containing the updated student details
+     * @param request the request containing the new activity status
      * @return the updated student
      */
     @PutMapping("/{id}/change-activity")
     fun changeStudentActivity(
         @PathVariable("id") id: UUID,
-        @RequestBody active: Boolean
+        @RequestBody request: ActiveRequest
     ): StudentResponseDto {
-        log.debug("PUT /students/{} called for student: {}", id, active)
-        return studentsService.changeStudentActivity(id, active)
+        log.debug("PUT /students/{}/change-activity with active: {}", id, request.active)
+        return studentsService.changeStudentActivity(id, request.active)
     }
 
     /**
      * Change the activity of students.
-     * @param ids the ids of the students to change the activity
-     * @param active the new activity status
+     * @param request the request containing the ids of the students and the new activity status
      */
     @PutMapping("/{id}/change-activities")
     fun changeStudentActivities(
-        @RequestBody ids: List<UUID>,
-        @RequestBody active: Boolean
+        @RequestBody request: ChangeActivitiesRequest
     ) {
-        log.debug("PUT /students/{} called for students: {}", ids, active)
-        studentsService.changeStudentActivities(ids, active)
+        log.debug("PUT /students/change-activities for students: {} with active: {}", request.ids, request.active)
+        studentsService.changeStudentActivities(request.ids, request.active)
     }
 
     /**

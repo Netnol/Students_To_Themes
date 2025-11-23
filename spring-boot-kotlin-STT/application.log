@@ -890,3 +890,108 @@ org.springframework.web.servlet.resource.NoResourceFoundException: No static res
 2025-11-23T20:47:02.981+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-1] c.S.s.ThemesController                   : POST /themes
 2025-11-23T20:47:02.981+03:00  INFO 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-1] c.S.s.service.ThemesService              : Creating new theme: Web Development
 2025-11-23T20:47:03.443+03:00  INFO 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-1] c.S.s.service.ThemesService              : Successfully created theme with id: cc874cda-98b6-436f-9e04-d47ff985e33e
+2025-11-23T20:55:16.417+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-4] c.S.s.ThemesController                   : GET /themes called with params: name=null, description=null, author=null
+2025-11-23T20:55:16.417+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-4] c.S.s.service.ThemesService              : searching themes with filters - name: null, description: null, author: null
+2025-11-23T20:55:21.117+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-5] c.S.s.ThemesController                   : GET /themes called with params: name=null, description=null, author=null
+2025-11-23T20:55:21.118+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-5] c.S.s.service.ThemesService              : searching themes with filters - name: null, description: null, author: null
+2025-11-23T20:56:23.669+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-8] c.S.s.StudentsController                 : POST /students called for student: Alice Smith
+2025-11-23T20:56:23.669+03:00  INFO 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-8] c.S.s.service.StudentsService            : Creating new student with name: Alice Smith
+2025-11-23T20:56:23.848+03:00  INFO 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-8] c.S.s.service.StudentsService            : Successfully created student with id: 34cc685b-ebac-45d8-ba82-cba01155db2a and name: Alice Smith
+2025-11-23T20:56:59.180+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-9] c.S.s.StudentsController                 : GET /students called with params: name=null, hardSkill=null, background=null, interests=null, timeInWeek=null
+2025-11-23T20:56:59.180+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-9] c.S.s.service.StudentsService            : Searching students with filters - name: null, hardSkill: null, background: null, interests: null, timeInWeek: null
+2025-11-23T20:57:56.880+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-10] c.S.s.StudentsController                 : GET /students/34cc685b-ebac-45d8-ba82-cba01155db2a called
+2025-11-23T20:57:56.880+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-10] c.S.s.service.StudentsService            : Getting student by id: 34cc685b-ebac-45d8-ba82-cba01155db2a
+2025-11-23T20:57:57.176+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-10] c.S.s.service.StudentsService            : Student found: Alice Smith with id: 34cc685b-ebac-45d8-ba82-cba01155db2a
+2025-11-23T20:58:08.912+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-1] c.S.s.StudentsController                 : GET /students called with params: name=null, hardSkill=null, background=null, interests=null, timeInWeek=null
+2025-11-23T20:58:08.913+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-1] c.S.s.service.StudentsService            : Searching students with filters - name: null, hardSkill: null, background: null, interests: null, timeInWeek: null
+2025-11-23T21:00:55.827+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-4] c.S.s.StudentsController                 : GET /students called with params: name=Alice, hardSkill=null, background=null, interests=null, timeInWeek=null
+2025-11-23T21:00:55.827+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-4] c.S.s.service.StudentsService            : Searching students with filters - name: Alice, hardSkill: null, background: null, interests: null, timeInWeek: null
+2025-11-23T21:01:06.927+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-5] c.S.s.StudentsController                 : GET /students called with params: name=Alex, hardSkill=null, background=null, interests=null, timeInWeek=null
+2025-11-23T21:01:06.927+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-5] c.S.s.service.StudentsService            : Searching students with filters - name: Alex, hardSkill: null, background: null, interests: null, timeInWeek: null
+2025-11-23T21:01:16.916+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-6] c.S.s.StudentsController                 : GET /students called with params: name=null, hardSkill=null, background=null, interests=null, timeInWeek=null
+2025-11-23T21:01:16.916+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-6] c.S.s.service.StudentsService            : Searching students with filters - name: null, hardSkill: null, background: null, interests: null, timeInWeek: null
+2025-11-23T21:01:29.551+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-7] c.S.s.ThemesController                   : GET /themes called with params: name=null, description=null, author=null
+2025-11-23T21:01:29.551+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-7] c.S.s.service.ThemesService              : searching themes with filters - name: null, description: null, author: null
+2025-11-23T21:02:10.005+03:00 ERROR 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-8] c.S.s.GlobalExceptionHandler             : Internal server error
+
+org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported
+	at org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.handleNoMatch(RequestMappingInfoHandlerMapping.java:267) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.lookupHandlerMethod(AbstractHandlerMethodMapping.java:441) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.getHandlerInternal(AbstractHandlerMethodMapping.java:382) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.getHandlerInternal(RequestMappingInfoHandlerMapping.java:127) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.getHandlerInternal(RequestMappingInfoHandlerMapping.java:68) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.handler.AbstractHandlerMapping.getHandler(AbstractHandlerMapping.java:509) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.DispatcherServlet.getHandler(DispatcherServlet.java:1284) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1065) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.48.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.48.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+
+2025-11-23T21:04:15.770+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-10] c.S.s.ThemesController                   : POST /themes/cc874cda-98b6-436f-9e04-d47ff985e33e/specializations with specialization: "Mobile Development"
+2025-11-23T21:04:15.770+03:00  INFO 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-10] c.S.s.service.ThemesService              : Adding specialization "Mobile Development" to theme cc874cda-98b6-436f-9e04-d47ff985e33e
+2025-11-23T21:04:16.174+03:00  WARN 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-10] c.S.s.GlobalExceptionHandler             : Validation error: Specialization name can only contain letters, numbers, spaces and hyphens
+2025-11-23T21:04:39.121+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-2] c.S.s.ThemesController                   : POST /themes/cc874cda-98b6-436f-9e04-d47ff985e33e/specializations with specialization: "MobileDevelopment"
+2025-11-23T21:04:39.122+03:00  INFO 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-2] c.S.s.service.ThemesService              : Adding specialization "MobileDevelopment" to theme cc874cda-98b6-436f-9e04-d47ff985e33e
+2025-11-23T21:04:39.510+03:00  WARN 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-2] c.S.s.GlobalExceptionHandler             : Validation error: Specialization name can only contain letters, numbers, spaces and hyphens
+2025-11-23T21:04:45.273+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-4] c.S.s.ThemesController                   : POST /themes/cc874cda-98b6-436f-9e04-d47ff985e33e/specializations with specialization: "Mobile_Development"
+2025-11-23T21:04:45.273+03:00  INFO 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-4] c.S.s.service.ThemesService              : Adding specialization "Mobile_Development" to theme cc874cda-98b6-436f-9e04-d47ff985e33e
+2025-11-23T21:04:45.589+03:00  WARN 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-4] c.S.s.GlobalExceptionHandler             : Validation error: Specialization name can only contain letters, numbers, spaces and hyphens
+2025-11-23T21:04:53.267+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-6] c.S.s.ThemesController                   : POST /themes/cc874cda-98b6-436f-9e04-d47ff985e33e/specializations with specialization: "Mobiledevelopment"
+2025-11-23T21:04:53.267+03:00  INFO 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-6] c.S.s.service.ThemesService              : Adding specialization "Mobiledevelopment" to theme cc874cda-98b6-436f-9e04-d47ff985e33e
+2025-11-23T21:04:53.504+03:00  WARN 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-6] c.S.s.GlobalExceptionHandler             : Validation error: Specialization name can only contain letters, numbers, spaces and hyphens
+2025-11-23T21:05:03.743+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-8] c.S.s.ThemesController                   : GET /themes/cc874cda-98b6-436f-9e04-d47ff985e33e
+2025-11-23T21:05:03.743+03:00  INFO 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-8] c.S.s.service.ThemesService              : Getting theme by id: cc874cda-98b6-436f-9e04-d47ff985e33e
+2025-11-23T21:06:01.747+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-9] c.S.s.ThemesController                   : POST /themes/cc874cda-98b6-436f-9e04-d47ff985e33e/specializations with specialization: [
+    "Mobile Development"
+]
+2025-11-23T21:06:01.747+03:00  INFO 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-9] c.S.s.service.ThemesService              : Adding specialization [
+    "Mobile Development"
+] to theme cc874cda-98b6-436f-9e04-d47ff985e33e
+2025-11-23T21:06:02.062+03:00  WARN 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-9] c.S.s.GlobalExceptionHandler             : Validation error: Specialization name can only contain letters, numbers, spaces and hyphens
+2025-11-23T21:10:14.053+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-1] c.S.s.ThemesController                   : POST /themes/cc874cda-98b6-436f-9e04-d47ff985e33e/specializations with specialization: "Mobile Development"
+2025-11-23T21:10:14.053+03:00  INFO 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-1] c.S.s.service.ThemesService              : Adding specialization "Mobile Development" to theme cc874cda-98b6-436f-9e04-d47ff985e33e
+2025-11-23T21:10:14.424+03:00  WARN 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-1] c.S.s.GlobalExceptionHandler             : Validation error: Specialization name can only contain letters, numbers, spaces and hyphens
+2025-11-23T21:10:49.248+03:00 DEBUG 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-3] c.S.s.ThemesController                   : POST /themes/cc874cda-98b6-436f-9e04-d47ff985e33e/specializations with specialization: Mobile Development
+2025-11-23T21:10:49.249+03:00  INFO 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-3] c.S.s.service.ThemesService              : Adding specialization Mobile Development to theme cc874cda-98b6-436f-9e04-d47ff985e33e
+2025-11-23T21:10:49.867+03:00  INFO 30480 --- [spring-boot-kotlin-STT] [http-nio-8080-exec-3] c.S.s.service.ThemesService              : Successfully added specialization Mobile Development to theme cc874cda-98b6-436f-9e04-d47ff985e33e
+2025-11-23T22:03:45.911+03:00  INFO 30480 --- [spring-boot-kotlin-STT] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-23T22:03:45.916+03:00  INFO 30480 --- [spring-boot-kotlin-STT] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-11-23T22:03:45.919+03:00  INFO 30480 --- [spring-boot-kotlin-STT] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-23T22:03:45.921+03:00  INFO 30480 --- [spring-boot-kotlin-STT] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-11-23T22:03:46.329+03:00  INFO 30480 --- [spring-boot-kotlin-STT] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

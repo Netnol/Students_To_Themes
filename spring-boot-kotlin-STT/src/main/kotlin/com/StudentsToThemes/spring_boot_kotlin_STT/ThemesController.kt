@@ -1,6 +1,7 @@
 package com.StudentsToThemes.spring_boot_kotlin_STT
 
 import com.StudentsToThemes.spring_boot_kotlin_STT.service.ThemesService
+import jakarta.validation.Valid
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -131,16 +132,16 @@ class ThemesController(
     /**
      * Change the activity of students in a theme.
      * @param themeId the id of the theme to change the activity of the students
-     * @param active the new activity status
+     * @param request the request containing the new activity status
      * @return the updated theme
      */
     @PutMapping("/{themeId}/students/active")
     fun changeStudentsActivityInTheme(
         @PathVariable themeId: UUID,
-        @RequestBody active: Boolean
+        @RequestBody request: ActiveRequest
     ): ThemeResponseDto {
-        log.debug("PUT /themes/{}/students/active", themeId)
-        return themesService.changeStudentsActivityInTheme(themeId, active)
+        log.debug("PUT /themes/{}/students/active with active: {}", themeId, request.active)
+        return themesService.changeStudentsActivityInTheme(themeId, request.active)
     }
 
     /**
@@ -296,16 +297,16 @@ class ThemesController(
     /**
      * Add a specialization to a theme.
      * @param themeId the id of the theme to add the specialization to
-     * @param specialization the name of the specialization to add
+     * @param request the request containing the name of the specialization to add
      * @return the updated theme
      */
     @PostMapping("/{themeId}/specializations")
     fun addSpecialization(
         @PathVariable themeId: UUID,
-        @RequestBody specialization: String
+        @RequestBody @Valid request: SpecializationRequest
     ): ThemeResponseDto {
-        log.debug("POST /themes/{}/specializations with specialization: {}", themeId, specialization)
-        return themesService.addSpecializationToTheme(themeId, specialization)
+        log.debug("POST /themes/{}/specializations with specialization: {}", themeId, request.name)
+        return themesService.addSpecializationToTheme(themeId, request.name)
     }
 
     /**
