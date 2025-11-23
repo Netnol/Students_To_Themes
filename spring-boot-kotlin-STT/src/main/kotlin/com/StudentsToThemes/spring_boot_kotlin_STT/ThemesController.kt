@@ -198,4 +198,143 @@ class ThemesController(
         log.debug("GET /students/{}/themes", studentId)
         return themesService.getStudentThemes(studentId)
     }
+
+    /**
+     * Update the students in a specialization of a theme.
+     * @param themeId the id of the theme to update the students in
+     * @param specializationName the name of the specialization to update the students in
+     * @param studentIds the ids of the students to update
+     * @return the updated theme
+     */
+    @PutMapping("/{themeId}/specializations/{specializationName}/students")
+    fun updateSpecializationStudents(
+        @PathVariable themeId: UUID,
+        @PathVariable specializationName: String,
+        @RequestBody studentIds: List<UUID>
+    ): ThemeResponseDto {
+        log.debug("PUT /themes/{}/specializations/{}/students", themeId, specializationName)
+        return themesService.updateSpecializationStudents(themeId, specializationName, studentIds)
+    }
+
+    /**
+     * Copy the students from the theme to a specialization.
+     * @param themeId the id of the theme to copy the students from
+     * @param specializationName the name of the specialization to copy the students to
+     * @return the updated theme
+     */
+    @PostMapping("/{themeId}/specializations/{specializationName}/copy-from-theme")
+    fun copyThemeStudentsToSpecialization(
+        @PathVariable themeId: UUID,
+        @PathVariable specializationName: String
+    ): ThemeResponseDto {
+        log.debug("POST /themes/{}/specializations/{}/copy-from-theme", themeId, specializationName)
+        return themesService.copyThemeStudentsToSpecialization(themeId, specializationName)
+    }
+
+    /**
+     * Get the students in a specialization of a theme.
+     * @param themeId the id of the theme to get the students from
+     * @param specializationName the name of the specialization to get the students from
+     * @param limit the maximum number of students to return
+     * @return a list of students in the specialization
+     */
+    @GetMapping("/{themeId}/specializations/{specializationName}/students")
+    fun getSpecializationStudents(
+        @PathVariable themeId: UUID,
+        @PathVariable specializationName: String,
+        @RequestParam(required = false) limit: Int?
+    ): List<StudentWithPriorityDto> {
+        log.debug("GET /themes/{}/specializations/{}/students?limit={}", themeId, specializationName, limit)
+        return themesService.getSpecializationStudents(themeId, specializationName, limit)
+    }
+
+    /**
+     * Add a student to a specialization in a theme.
+     * @param themeId the id of the theme to add the student to
+     * @param specializationName the name of the specialization to add the student to
+     * @param studentId the id of the student to add
+     * @return the updated theme
+     */
+    @PostMapping("/{themeId}/specializations/{specializationName}/students/{studentId}")
+    fun addStudentToSpecialization(
+        @PathVariable themeId: UUID,
+        @PathVariable specializationName: String,
+        @PathVariable studentId: UUID
+    ): ThemeResponseDto {
+        log.debug("POST /themes/{}/specializations/{}/students/{}", themeId, specializationName, studentId)
+        return themesService.addStudentToSpecialization(themeId, specializationName, studentId)
+    }
+
+    /**
+     * Remove a student from a specialization in a theme.
+     * @param themeId the id of the theme to remove the student from
+     * @param specializationName the name of the specialization to remove the student from
+     * @param studentId the id of the student to remove
+     * @return the updated theme
+     */
+    @DeleteMapping("/{themeId}/specializations/{specializationName}/students/{studentId}")
+    fun removeStudentFromSpecialization(
+        @PathVariable themeId: UUID,
+        @PathVariable specializationName: String,
+        @PathVariable studentId: UUID
+    ): ThemeResponseDto {
+        log.debug("DELETE /themes/{}/specializations/{}/students/{}", themeId, specializationName, studentId)
+        return themesService.removeStudentFromSpecialization(themeId, specializationName, studentId)
+    }
+
+    /**
+     * Get the specializations for a student.
+     * @param studentId the id of the student to get the specializations for
+     * @return a map of specializations to themes
+     */
+    @GetMapping("/students/{studentId}/specializations")
+    fun getStudentSpecializations(@PathVariable studentId: UUID): Map<String, Map<UUID, Int>> {
+        log.debug("GET /students/{}/specializations", studentId)
+        return themesService.getStudentSpecializations(studentId)
+    }
+
+    /**
+     * Add a specialization to a theme.
+     * @param themeId the id of the theme to add the specialization to
+     * @param specialization the name of the specialization to add
+     * @return the updated theme
+     */
+    @PostMapping("/{themeId}/specializations")
+    fun addSpecialization(
+        @PathVariable themeId: UUID,
+        @RequestBody specialization: String
+    ): ThemeResponseDto {
+        log.debug("POST /themes/{}/specializations with specialization: {}", themeId, specialization)
+        return themesService.addSpecializationToTheme(themeId, specialization)
+    }
+
+    /**
+     * Remove a specialization from a theme.
+     * @param themeId the id of the theme to remove the specialization from
+     * @param specializationName the name of the specialization to remove
+     * @return the updated theme
+     */
+    @DeleteMapping("/{themeId}/specializations/{specializationName}")
+    fun removeSpecialization(
+        @PathVariable themeId: UUID,
+        @PathVariable specializationName: String
+    ): ThemeResponseDto {
+        log.debug("DELETE /themes/{}/specializations/{}", themeId, specializationName)
+        return themesService.removeSpecializationFromTheme(themeId, specializationName)
+    }
+
+    /**
+     * Update the specializations in a theme.
+     * @param themeId the id of the theme to update the specializations in
+     * @param specializations the list of specializations to update
+     * @return the updated theme
+     */
+    @PutMapping("/{themeId}/specializations")
+    fun updateSpecializations(
+        @PathVariable themeId: UUID,
+        @RequestBody specializations: List<String>
+    ): ThemeResponseDto {
+        log.debug("PUT /themes/{}/specializations with: {}", themeId, specializations)
+        return themesService.updateThemeSpecializations(themeId, specializations)
+    }
 }
