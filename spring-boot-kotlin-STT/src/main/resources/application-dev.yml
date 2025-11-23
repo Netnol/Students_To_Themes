@@ -1,8 +1,15 @@
-#Configuration for development, update the database schema
+# Configuration for development, update the database schema
 spring:
   application:
     version: 1.0.0-dev
   jpa:
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
 
+  # В DEV отключаем Flyway - пусть Hibernate управляет схемой
+  flyway:
+    enabled: false  # ← ИЗМЕНИТЕ НА false

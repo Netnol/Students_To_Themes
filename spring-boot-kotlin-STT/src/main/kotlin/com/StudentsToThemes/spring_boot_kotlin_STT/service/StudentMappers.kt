@@ -9,23 +9,31 @@ import java.time.Instant
 import java.util.UUID
 
 fun StudentEntity.toResponseDto() = StudentResponseDto(
-    id = this.id!!, // Use !! because we are sure that id is not null
+    id = this.id!!,
     name = this.name,
     hardSkill = this.hardSkill,
     background = this.background,
     interests = this.interests,
     timeInWeek = this.timeInWeek,
+    themePriorities = this.themes.associate { theme ->
+        theme.id!! to theme.priorityStudents.indexOfFirst { it.id == this.id }
+    }.filter { it.value >= 0 },
+    specializationPriorities = this.specializationThemes
+        .groupBy { it.specializationName }
+        .mapValues { (_, specializations) ->
+            specializations.associate { specialization ->
+                specialization.theme.id!! to specialization.priorityOrder
+            }
+        },
     createdAt = this.createdAt,
     updatedAt = this.updatedAt
 )
 
 fun CreateStudentRequest.toEntity() = StudentEntity(
-    id = null, // ID will be generated automatically
+    id = null,
     name = this.name,
     hardSkill = this.hardSkill,
     background = this.background,
     interests = this.interests,
     timeInWeek = this.timeInWeek
 )
-
-

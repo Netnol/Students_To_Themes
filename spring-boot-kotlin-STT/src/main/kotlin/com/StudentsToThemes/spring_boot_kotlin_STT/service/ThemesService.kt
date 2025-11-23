@@ -6,11 +6,13 @@ import com.StudentsToThemes.spring_boot_kotlin_STT.StudentNotFoundException
 import com.StudentsToThemes.spring_boot_kotlin_STT.StudentWithPriorityDto
 import com.StudentsToThemes.spring_boot_kotlin_STT.ThemeNotFoundException
 import com.StudentsToThemes.spring_boot_kotlin_STT.ThemeResponseDto
+import com.StudentsToThemes.spring_boot_kotlin_STT.ThemeSpecializationStudent
 import com.StudentsToThemes.spring_boot_kotlin_STT.ThemeSpecifications
 import com.StudentsToThemes.spring_boot_kotlin_STT.ThemeWithPriorityDto
 import com.StudentsToThemes.spring_boot_kotlin_STT.UpdateThemePriorityRequest
 import com.StudentsToThemes.spring_boot_kotlin_STT.UpdateThemeRequest
 import com.StudentsToThemes.spring_boot_kotlin_STT.repository.StudentsRepository
+import com.StudentsToThemes.spring_boot_kotlin_STT.repository.ThemeSpecializationStudentRepository
 import com.StudentsToThemes.spring_boot_kotlin_STT.repository.ThemesRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -19,7 +21,8 @@ import java.util.UUID
 @Service
 class ThemesService(
     private val themesRepository: ThemesRepository,
-    private val studentsRepository: StudentsRepository
+    private val studentsRepository: StudentsRepository,
+    private val themeSpecializationStudentRepository: ThemeSpecializationStudentRepository
 ) {
     private val log = LoggerFactory.getLogger(ThemesService::class.java)
 
@@ -60,18 +63,32 @@ class ThemesService(
     fun createTheme(createRequest: CreateThemeRequest): ThemeResponseDto {
         log.info("Creating new theme: {}", createRequest.name)
 
-        val theme = createRequest.toEntity()
+        try {
+            // Validation of the request is performed in the init block of CreateThemeRequest
 
-        // If priorityStudents are provided, add them to the theme
-        if (createRequest.priorityStudents.isNotEmpty()) {
-            val students = studentsRepository.findAllById(createRequest.priorityStudents)
-            theme.priorityStudents.addAll(students)
+            val theme = createRequest.toEntity()
+
+            // If priorityStudents are given, add them to the theme
+            if (createRequest.priorityStudents.isNotEmpty()) {
+                val students = studentsRepository.findAllById(createRequest.priorityStudents)
+                val foundIds = students.map { it.id!! }
+                val missingIds = createRequest.priorityStudents - foundIds.toSet()
+
+                if (missingIds.isNotEmpty()) {
+                    throw StudentNotFoundException(missingIds.first())
+                }
+
+                theme.priorityStudents.addAll(students)
+            }
+
+            val savedTheme = themesRepository.save(theme)
+            log.info("Successfully created theme with id: {}", savedTheme.id)
+
+            return savedTheme.toResponseDto()
+        } catch (e: IllegalArgumentException) {
+            log.error("Validation error while creating theme: {}", e.message)
+            throw e // Rethrow for controller to handle
         }
-
-        val savedTheme = themesRepository.save(theme)
-        log.info("Successfully created theme with id: {}", savedTheme.id)
-
-        return savedTheme.toResponseDto()
     }
 
     /**
@@ -107,17 +124,27 @@ class ThemesService(
     fun updateTheme(themeId: UUID, updateRequest: UpdateThemeRequest): ThemeResponseDto {
         log.info("Updating theme: {}", themeId)
 
-        val theme = themesRepository.findById(themeId)
-            .orElseThrow { ThemeNotFoundException(themeId) }
+        try {
+            // Validation is already in init block of UpdateThemeRequest
 
-        theme.name = updateRequest.name
-        theme.description = updateRequest.description
-        theme.author = updateRequest.author
+            val theme = themesRepository.findById(themeId)
+                .orElseThrow { ThemeNotFoundException(themeId) }
 
-        val updatedTheme = themesRepository.save(theme)
-        log.info("Successfully updated theme: {}", themeId)
+            theme.name = updateRequest.name
+            theme.description = updateRequest.description
+            theme.author = updateRequest.author
 
-        return updatedTheme.toResponseDto()
+            // Update specializations
+            theme.updateSpecializations(updateRequest.specializations)
+
+            val updatedTheme = themesRepository.save(theme)
+            log.info("Successfully updated theme: {}", themeId)
+
+            return updatedTheme.toResponseDto()
+        } catch (e: IllegalArgumentException) {
+            log.error("Validation error while updating theme: {}", e.message)
+            throw e
+        }
     }
 
     /**
@@ -318,5 +345,287 @@ class ThemesService(
                 author = theme.author
             )
         }.filter { it.priority >= 0 } // Only themes where the student is actually present
+    }
+
+    /**
+     * Update the students for a specialization in a theme.
+     * @param themeId the id of the theme to update the students for
+     * @param specializationName the name of the specialization to update the students for
+     * @param studentIds the ids of the students to update
+     * @return the updated theme
+     */
+    fun updateSpecializationStudents(themeId: UUID, specializationName: String, studentIds: List<UUID>): ThemeResponseDto {
+        log.info("Updating students for specialization {} in theme {}", specializationName, themeId)
+
+        val theme = themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+
+        // Validation of existence of specialization
+        val exactSpecializationName = theme.getExactSpecializationName(specializationName)
+            ?: throw IllegalArgumentException("Specialization '$specializationName' not found in theme")
+
+        // Validation of students
+        val students = studentsRepository.findAllById(studentIds)
+        val foundIds = students.map { it.id!! }
+        val missingIds = studentIds - foundIds.toSet()
+
+        if (missingIds.isNotEmpty()) {
+            throw StudentNotFoundException(missingIds.first())
+        }
+
+        // Checking students duplicates
+        val duplicateStudents = studentIds.groupBy { it }.filter { it.value.size > 1 }
+        if (duplicateStudents.isNotEmpty()) {
+            throw IllegalArgumentException("Duplicate student IDs found: ${duplicateStudents.keys}")
+        }
+
+        // Deleting old records of this specialisation
+        themeSpecializationStudentRepository.deleteByThemeIdAndSpecializationName(themeId, exactSpecializationName)
+
+        // Creating new records
+        students.forEachIndexed { index, student ->
+            val specializationStudent = ThemeSpecializationStudent(
+                theme = theme,
+                specializationName = exactSpecializationName,
+                student = student,
+                priorityOrder = index
+            )
+            themeSpecializationStudentRepository.save(specializationStudent)
+        }
+
+        log.info("Successfully updated students for specialization {} in theme {}", specializationName, themeId)
+
+        // Reloading theme with new data
+        return themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+            .toResponseDto()
+    }
+
+    /**
+     * Copy the students from the theme to a specialization.
+     * @param themeId the id of the theme to copy the students from
+     * @param specializationName the name of the specialization to copy the students to
+     * @return the updated theme
+     */
+    fun copyThemeStudentsToSpecialization(themeId: UUID, specializationName: String): ThemeResponseDto {
+        log.info("Copying theme students to specialization {} in theme {}", specializationName, themeId)
+
+        val theme = themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+
+        if (!theme.specializations.contains(specializationName)) {
+            throw IllegalArgumentException("Specialization $specializationName not found in theme")
+        }
+
+        // Копируем основной список студентов в специализацию
+        return updateSpecializationStudents(themeId, specializationName,
+            theme.priorityStudents.map { it.id!! })
+    }
+
+    /**
+     * Get the students for a specialization in a theme.
+     * @param themeId the id of the theme to get the students for
+     * @param specializationName the name of the specialization to get the students for
+     * @param limit the maximum number of students to return
+     * @return a list of students in the specialization
+     */
+    fun getSpecializationStudents(themeId: UUID, specializationName: String, limit: Int? = null): List<StudentWithPriorityDto> {
+        log.debug("Getting students for specialization {} in theme {} with limit: {}",
+            specializationName, themeId, limit)
+
+        val theme = themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+
+        if (!theme.specializations.contains(specializationName)) {
+            throw IllegalArgumentException("Specialization $specializationName not found in theme")
+        }
+
+        val specializationStudents = themeSpecializationStudentRepository
+            .findByThemeIdAndSpecializationName(themeId, specializationName)
+            .sortedBy { it.priorityOrder }
+
+        val studentsWithPriority = specializationStudents.map { entity ->
+            StudentWithPriorityDto(
+                studentId = entity.student.id!!,
+                studentName = entity.student.name,
+                priority = entity.priorityOrder,
+                hardSkill = entity.student.hardSkill,
+                background = entity.student.background
+            )
+        }
+
+        return if (limit != null) {
+            studentsWithPriority.take(limit)
+        } else {
+            studentsWithPriority
+        }
+    }
+
+    /**
+     * Add a student to a specialization in a theme.
+     * @param themeId the id of the theme to add the student to
+     * @param specializationName the name of the specialization to add the student to
+     * @param studentId the id of the student to add
+     * @return the updated theme
+     */
+    fun addStudentToSpecialization(themeId: UUID, specializationName: String, studentId: UUID): ThemeResponseDto {
+        log.info("Adding student {} to specialization {} in theme {}", studentId, specializationName, themeId)
+
+        val theme = themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+
+        if (!theme.specializations.contains(specializationName)) {
+            throw IllegalArgumentException("Specialization $specializationName not found in theme")
+        }
+
+        val student = studentsRepository.findById(studentId)
+            .orElseThrow { StudentNotFoundException(studentId) }
+
+        // Check if the student is already added
+        val existing = themeSpecializationStudentRepository
+            .findByThemeIdAndSpecializationNameAndStudentId(themeId, specializationName, studentId)
+
+        if (existing.isPresent) {
+            log.info("Student {} is already in specialization {} of theme {}", studentId, specializationName, themeId)
+            return theme.toResponseDto()
+        }
+
+        // Defining next priority
+        val nextPriority = themeSpecializationStudentRepository
+            .findMaxPriorityOrderByThemeAndSpecialization(themeId, specializationName)
+            ?.plus(1) ?: 0
+
+        val specializationStudent = ThemeSpecializationStudent(
+            theme = theme,
+            specializationName = specializationName,
+            student = student,
+            priorityOrder = nextPriority
+        )
+
+        themeSpecializationStudentRepository.save(specializationStudent)
+        log.info("Successfully added student to specialization")
+
+        return theme.toResponseDto()
+    }
+
+    /**
+     * Remove a student from a specialization in a theme.
+     * @param themeId the id of the theme to remove the student from
+     * @param specializationName the name of the specialization to remove the student from
+     * @param studentId the id of the student to remove
+     * @return the updated theme
+     */
+    fun removeStudentFromSpecialization(themeId: UUID, specializationName: String, studentId: UUID): ThemeResponseDto {
+        log.info("Removing student {} from specialization {} in theme {}", studentId, specializationName, themeId)
+
+        val theme = themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+
+        if (!theme.specializations.contains(specializationName)) {
+            throw IllegalArgumentException("Specialization $specializationName not found in theme")
+        }
+
+        val existing = themeSpecializationStudentRepository
+            .findByThemeIdAndSpecializationNameAndStudentId(themeId, specializationName, studentId)
+
+        existing.ifPresent { themeSpecializationStudentRepository.delete(it) }
+        log.info("Successfully removed student from specialization")
+
+        return theme.toResponseDto()
+    }
+
+    /**
+     * Get the specializations for a student.
+     * @param studentId the id of the student to get the specializations for
+     * @return a map of specializations to themes
+     */
+    fun getStudentSpecializations(studentId: UUID): Map<String, Map<UUID, Int>> {
+        log.debug("Getting all specializations for student: {}", studentId)
+
+        val student = studentsRepository.findById(studentId)
+            .orElseThrow { StudentNotFoundException(studentId) }
+
+        return student.specializationThemes
+            .groupBy { it.specializationName }
+            .mapValues { (_, specializations) ->
+                specializations.associate { specialization ->
+                    specialization.theme.id!! to specialization.priorityOrder
+                }
+            }
+    }
+
+    /**
+     * Add a specialization to a theme.
+     * @param themeId the id of the theme to add the specialization to
+     * @param specialization the name of the specialization to add
+     * @return the updated theme
+     */
+    fun addSpecializationToTheme(themeId: UUID, specialization: String): ThemeResponseDto {
+        log.info("Adding specialization {} to theme {}", specialization, themeId)
+
+        // Pre-Validation
+        if (specialization.isBlank()) {
+            throw IllegalArgumentException("Specialization name cannot be blank")
+        }
+
+        val theme = themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+
+        // Checking if the specialization already exists
+        if (theme.hasSpecialization(specialization)) {
+            throw IllegalArgumentException("Specialization '$specialization' already exists in theme")
+        }
+
+        theme.addSpecialization(specialization)
+
+        val updatedTheme = themesRepository.save(theme)
+        log.info("Successfully added specialization {} to theme {}", specialization, themeId)
+
+        return updatedTheme.toResponseDto()
+    }
+
+    /**
+     * Remove a specialization from a theme.
+     * @param themeId the id of the theme to remove the specialization from
+     * @param specialization the name of the specialization to remove
+     * @return the updated theme
+     */
+    fun removeSpecializationFromTheme(themeId: UUID, specialization: String): ThemeResponseDto {
+        log.info("Removing specialization {} from theme {}", specialization, themeId)
+
+        val theme = themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+
+        // Checking existence of specialisation
+        if (!theme.hasSpecialization(specialization)) {
+            throw IllegalArgumentException("Specialization '$specialization' not found in theme")
+        }
+
+        theme.removeSpecialization(specialization)
+
+        val updatedTheme = themesRepository.save(theme)
+        log.info("Successfully removed specialization {} from theme {}", specialization, themeId)
+
+        return updatedTheme.toResponseDto()
+    }
+
+    /**
+     * Update the specializations for a theme.
+     * @param themeId the id of the theme to update the specializations for
+     * @param specializations the list of specializations to update
+     * @return the updated theme
+     */
+    fun updateThemeSpecializations(themeId: UUID, specializations: List<String>): ThemeResponseDto {
+        log.info("Updating specializations for theme {}: {}", themeId, specializations)
+
+        val theme = themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+
+        theme.updateSpecializations(specializations)
+
+        val updatedTheme = themesRepository.save(theme)
+        log.info("Successfully updated specializations for theme {}", themeId)
+
+        return updatedTheme.toResponseDto()
     }
 }
