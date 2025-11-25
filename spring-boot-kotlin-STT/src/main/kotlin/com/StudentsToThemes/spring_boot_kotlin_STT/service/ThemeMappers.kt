@@ -17,6 +17,7 @@ fun ThemeEntity.toResponseDto() = ThemeResponseDto(
         student.id!! to index
     }.toMap(),
     specializationStudents = this.specializationStudents
+        .filter { it.student.id != null } // Безопасная фильтрация
         .groupBy { it.specializationName }
         .mapValues { (_, entities) ->
             entities.sortedBy { it.priorityOrder }

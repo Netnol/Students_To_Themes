@@ -18,7 +18,7 @@ fun StudentEntity.toResponseDto() = StudentResponseDto(
     themePriorities = this.themes.associate { theme ->
         theme.id!! to theme.priorityStudents.indexOfFirst { it.id == this.id }
     }.filter { it.value >= 0 },
-    specializationPriorities = this.specializationThemes
+    specializationPriorities = this.getSafeSpecializationThemes()
         .groupBy { it.specializationName }
         .mapValues { (_, specializations) ->
             specializations.associate { specialization ->

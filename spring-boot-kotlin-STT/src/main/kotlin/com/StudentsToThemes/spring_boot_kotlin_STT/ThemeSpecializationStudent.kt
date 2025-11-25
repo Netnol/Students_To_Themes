@@ -22,28 +22,42 @@ import java.util.UUID
         UniqueConstraint(columnNames = ["theme_id", "specialization_name", "student_id"])
     ]
 )
-class ThemeSpecializationStudent(
+class ThemeSpecializationStudent{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    var id: UUID? = null,
+    var id: UUID? = null
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "theme_id")
-    var theme: ThemeEntity,
+    lateinit var theme: ThemeEntity
 
     @Column(name = "specialization_name")
-    var specializationName: String,
+    lateinit var specializationName: String
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
-    var student: StudentEntity,
+    lateinit var student: StudentEntity
 
     @Column(name = "priority_order")
-    var priorityOrder: Int = 0,
+    var priorityOrder: Int = 0
 
     @CreationTimestamp
-    var createdAt: Instant = Instant.now(),
+    var createdAt: Instant = Instant.now()
 
     @UpdateTimestamp
     var updatedAt: Instant = Instant.now()
-)
+
+    constructor()
+
+    constructor(
+        theme: ThemeEntity,
+        specializationName: String,
+        student: StudentEntity,
+        priorityOrder: Int = 0
+    ) : this() {
+        this.theme = theme
+        this.specializationName = specializationName
+        this.student = student
+        this.priorityOrder = priorityOrder
+    }
+}

@@ -55,4 +55,14 @@ class StudentEntity(
     // Feedback for specializations (cascading delete)
     @OneToMany(mappedBy = "student", cascade = [CascadeType.ALL], orphanRemoval = true)
     val specializationThemes: MutableList<ThemeSpecializationStudent> = mutableListOf()
+
+    /**
+     * Get the specialization themes for the student.
+     * @return a list of specialization themes for the student
+     */
+    fun getSafeSpecializationThemes(): List<ThemeSpecializationStudent> {
+        return this.specializationThemes.filter {
+            it.theme.id != null && it.student.id != null
+        }
+    }
 }
