@@ -7,5 +7,6 @@ data class StudentWithPriorityDto(
     val studentName: String,
     val priority: Int, // Position in the list of priorities
     val hardSkill: String,
-    val background: String
+    val background: String,
+    val active: Boolean // Student activity status
 )

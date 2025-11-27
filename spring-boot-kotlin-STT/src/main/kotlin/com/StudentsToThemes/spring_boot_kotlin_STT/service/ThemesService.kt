@@ -22,7 +22,8 @@ import java.util.UUID
 class ThemesService(
     private val themesRepository: ThemesRepository,
     private val studentsRepository: StudentsRepository,
-    private val themeSpecializationStudentRepository: ThemeSpecializationStudentRepository
+    private val themeSpecializationStudentRepository: ThemeSpecializationStudentRepository,
+    private val mlSortingService: MLSortingService // Добавляем ML сервис
 ) {
     private val log = LoggerFactory.getLogger(ThemesService::class.java)
 
@@ -117,7 +118,7 @@ class ThemesService(
 
     /**
      * Update an existing theme.
-     * @param id the id of the theme to update
+     * @param themeId the id of the theme to update
      * @param updateRequest the request containing the updated theme details
      * @return the updated theme
      */
@@ -313,7 +314,8 @@ class ThemesService(
                 studentName = student.name,
                 priority = index,
                 hardSkill = student.hardSkill,
-                background = student.background
+                background = student.background,
+                active = student.active
             )
         }
 
@@ -420,45 +422,6 @@ class ThemesService(
         // Копируем основной список студентов в специализацию
         return updateSpecializationStudents(themeId, specializationName,
             theme.priorityStudents.map { it.id!! })
-    }
-
-    /**
-     * Get the students for a specialization in a theme.
-     * @param themeId the id of the theme to get the students for
-     * @param specializationName the name of the specialization to get the students for
-     * @param limit the maximum number of students to return
-     * @return a list of students in the specialization
-     */
-    fun getSpecializationStudents(themeId: UUID, specializationName: String, limit: Int? = null): List<StudentWithPriorityDto> {
-        log.debug("Getting students for specialization {} in theme {} with limit: {}",
-            specializationName, themeId, limit)
-
-        val theme = themesRepository.findById(themeId)
-            .orElseThrow { ThemeNotFoundException(themeId) }
-
-        if (!theme.specializations.contains(specializationName)) {
-            throw IllegalArgumentException("Specialization $specializationName not found in theme")
-        }
-
-        val specializationStudents = themeSpecializationStudentRepository
-            .findByThemeIdAndSpecializationName(themeId, specializationName)
-            .sortedBy { it.priorityOrder }
-
-        val studentsWithPriority = specializationStudents.map { entity ->
-            StudentWithPriorityDto(
-                studentId = entity.student.id!!,
-                studentName = entity.student.name,
-                priority = entity.priorityOrder,
-                hardSkill = entity.student.hardSkill,
-                background = entity.student.background
-            )
-        }
-
-        return if (limit != null) {
-            studentsWithPriority.take(limit)
-        } else {
-            studentsWithPriority
-        }
     }
 
     /**
@@ -627,5 +590,331 @@ class ThemesService(
         log.info("Successfully updated specializations for theme {}", themeId)
 
         return updatedTheme.toResponseDto()
+    }
+
+    /**
+     * Apply ML sorting to a specialization in a theme.
+     * @param themeId the id of the theme to apply ML sorting to
+     * @param specializationName the name of the specialization to apply ML sorting to
+     * @return the updated theme
+     */
+    fun applyMLSortingToSpecialization(themeId: UUID, specializationName: String): ThemeResponseDto {
+        log.info("Applying ML sorting to specialization: {} in theme: {}", specializationName, themeId)
+
+        val theme = themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+
+        if (!theme.hasSpecialization(specializationName)) {
+            throw IllegalArgumentException("Specialization '$specializationName' not found in theme")
+        }
+
+        // Getting current students in specialization
+        val specializationStudents = themeSpecializationStudentRepository
+            .findByThemeIdAndSpecializationName(themeId, specializationName)
+            .sortedBy { it.priorityOrder }
+
+        if (specializationStudents.isEmpty()) {
+            log.info("No students in specialization, skipping ML sort")
+            return theme.toResponseDto()
+        }
+
+        // Getting StudentEntity for students in specialization
+        val students = specializationStudents.map { it.student }
+
+        // Applying ML sorting - now passing entities directly
+        val sortedStudents = mlSortingService.sortSpecializationStudents(
+            students = students,
+            theme = theme,
+            specializationStudents = specializationStudents,
+            targetSpecialization = specializationName
+        )
+
+        // Updating the order in the database
+        sortedStudents.forEachIndexed { index, student ->
+            val entity = specializationStudents.find { it.student.id == student.id }
+            entity?.priorityOrder = index
+        }
+
+        // Saving changes
+        themeSpecializationStudentRepository.saveAll(specializationStudents)
+
+        // Mark the specialization as ML sorted
+        theme.mlSortedSpecializations.add(specializationName)
+        themesRepository.save(theme)
+
+        log.info("Successfully applied ML sorting to specialization: {}", specializationName)
+
+        return themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+            .toResponseDto()
+    }
+
+    /**
+     * Get the students in a specialization of a theme with optional active filter
+     * @param themeId the id of the theme to get the students from
+     * @param specializationName the name of the specialization to get the students from
+     * @param limit the maximum number of students to return
+     * @param useMLSorting whether to use ML sorting
+     * @param onlyActive whether to show only active students
+     * @return a list of students in the specialization
+     */
+    fun getSpecializationStudents(
+        themeId: UUID,
+        specializationName: String,
+        limit: Int? = null,
+        useMLSorting: Boolean = false,
+        onlyActive: Boolean = false
+    ): List<StudentWithPriorityDto> {
+        log.debug("Getting students for specialization {} in theme {} with limit: {}, ML: {}, onlyActive: {}",
+            specializationName, themeId, limit, useMLSorting, onlyActive)
+
+        val theme = themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+
+        if (!theme.specializations.contains(specializationName)) {
+            throw IllegalArgumentException("Specialization $specializationName not found in theme")
+        }
+
+        var specializationStudents = themeSpecializationStudentRepository
+            .findByThemeIdAndSpecializationName(themeId, specializationName)
+            .sortedBy { it.priorityOrder }
+
+        // Filter by active if requested
+        if (onlyActive) {
+            specializationStudents = specializationStudents.filter { it.student.active }
+        }
+
+        var studentsWithPriority: List<StudentWithPriorityDto>
+
+        // Apply ML sorting if requested and service is available
+        if (useMLSorting && mlSortingService.isServiceAvailable()) {
+            val students = specializationStudents.map { it.student }
+
+            val mlSortedStudents = mlSortingService.sortSpecializationStudents(
+                students = students,
+                theme = theme,
+                specializationStudents = specializationStudents,
+                targetSpecialization = specializationName
+            )
+
+            // Create DTO from ML-sorted students
+            studentsWithPriority = mlSortedStudents.mapIndexed { index, student ->
+                StudentWithPriorityDto(
+                    studentId = student.id!!,
+                    studentName = student.name,
+                    priority = index,
+                    hardSkill = student.hardSkill,
+                    background = student.background,
+                    active = student.active
+                )
+            }
+        } else {
+            // Use the order from the database
+            studentsWithPriority = specializationStudents.map { entity ->
+                StudentWithPriorityDto(
+                    studentId = entity.student.id!!,
+                    studentName = entity.student.name,
+                    priority = entity.priorityOrder,
+                    hardSkill = entity.student.hardSkill,
+                    background = entity.student.background,
+                    active = entity.student.active
+                )
+            }
+        }
+
+        return if (limit != null) {
+            studentsWithPriority.take(limit)
+        } else {
+            studentsWithPriority
+        }
+    }
+
+    /**
+     * Copy students from theme to all specializations
+     * @param themeId the id of the theme to copy the students from
+     * @return the updated theme
+     */
+    fun copyThemeStudentsToSpecializations(themeId: UUID): ThemeResponseDto {
+        log.info("Copying theme students to all specializations for theme: {}", themeId)
+
+        val theme = themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+
+        // For every specialisation in theme
+        theme.specializations.forEach { specialization ->
+            // Getting current students in specialisation (to delete them later)
+            val currentSpecializationStudents = themeSpecializationStudentRepository
+                .findByThemeIdAndSpecializationName(themeId, specialization)
+
+            // Deleting current students in specialisation
+            themeSpecializationStudentRepository.deleteAll(currentSpecializationStudents)
+
+            // Copy students from main theme to specialization
+            theme.priorityStudents.forEachIndexed { index, student ->
+                val specializationStudent = ThemeSpecializationStudent(
+                    theme = theme,
+                    specializationName = specialization,
+                    student = student,
+                    priorityOrder = index,
+                )
+                themeSpecializationStudentRepository.save(specializationStudent)
+            }
+        }
+
+        log.info("Successfully copied theme students to all specializations for theme: {}", themeId)
+
+        return themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+            .toResponseDto()
+    }
+
+    /**
+     * Change activity of students in a specialization
+     * @param themeId the id of the theme
+     * @param specializationName the name of the specialization
+     * @param active the new activity status
+     * @return the updated theme
+     */
+    fun changeStudentsActivityInSpecialization(
+        themeId: UUID,
+        specializationName: String,
+        active: Boolean
+    ): ThemeResponseDto {
+        log.info("Changing activity of students in specialization {} in theme {} to {}",
+            specializationName, themeId, active)
+
+        val theme = themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+
+        if (!theme.hasSpecialization(specializationName)) {
+            throw IllegalArgumentException("Specialization '$specializationName' not found in theme")
+        }
+
+        // Getting students in specialisation
+        val specializationStudents = themeSpecializationStudentRepository
+            .findByThemeIdAndSpecializationName(themeId, specializationName)
+
+        // Change activity of students in specialisation
+        specializationStudents.forEach { specializationStudent ->
+            specializationStudent.student.active = active
+        }
+
+        // Save changes
+        studentsRepository.saveAll(specializationStudents.map { it.student })
+
+        log.info("Successfully changed activity of students in specialization {} to {}",
+            specializationName, active)
+
+        return themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+            .toResponseDto()
+    }
+
+    /**
+     * Apply ML sorting to all specializations in a theme
+     * @param themeId the id of the theme to apply ML sorting to
+     * @return the updated theme
+     */
+    fun applyMLSortingToTheme(themeId: UUID): ThemeResponseDto {
+        log.info("Applying ML sorting to all specializations in theme: {}", themeId)
+
+        val theme = themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+
+        // For every specialisation in theme, where are students, apply ML sorting
+        theme.specializations.forEach { specialization ->
+            val specializationStudents = themeSpecializationStudentRepository
+                .findByThemeIdAndSpecializationName(themeId, specialization)
+
+            if (specializationStudents.isNotEmpty()) {
+                try {
+                    applyMLSortingToSpecialization(themeId, specialization)
+                    log.info("Successfully applied ML sorting to specialization: {}", specialization)
+                } catch (e: Exception) {
+                    log.warn("Failed to apply ML sorting to specialization {}: {}", specialization, e.message)
+                    // Proceed to next specialization
+                }
+            } else {
+                log.info("Skipping empty specialization: {}", specialization)
+            }
+        }
+
+        log.info("Completed ML sorting for all specializations in theme: {}", themeId)
+
+        return themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+            .toResponseDto()
+    }
+
+    /**
+     * Add students from theme to all specializations without removing existing ones
+     * @param themeId the id of the theme to add the students from
+     * @return the updated theme
+     */
+    fun addThemeStudentsToSpecializations(themeId: UUID): ThemeResponseDto {
+        log.info("Adding theme students to all specializations for theme: {}", themeId)
+
+        val theme = themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+
+        // For every specialisation in theme
+        theme.specializations.forEach { specialization ->
+            addThemeStudentsToSpecialization(themeId, specialization)
+        }
+
+        log.info("Successfully added theme students to all specializations for theme: {}", themeId)
+
+        return themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+            .toResponseDto()
+    }
+
+    /**
+     * Add students from theme to a specific specialization without removing existing ones
+     * @param themeId the id of the theme to add the students from
+     * @param specializationName the name of the specialization to add the students to
+     * @return the updated theme
+     */
+    fun addThemeStudentsToSpecialization(themeId: UUID, specializationName: String): ThemeResponseDto {
+        log.info("Adding theme students to specialization {} in theme: {}", specializationName, themeId)
+
+        val theme = themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+
+        if (!theme.hasSpecialization(specializationName)) {
+            throw IllegalArgumentException("Specialization '$specializationName' not found in theme")
+        }
+
+        // Getting current students in specialisation
+        val currentSpecializationStudents = themeSpecializationStudentRepository
+            .findByThemeIdAndSpecializationName(themeId, specializationName)
+
+        val existingStudentIds = currentSpecializationStudents.map { it.student.id!! }.toSet()
+
+        // Finding next available priorityOrder
+        val nextPriorityOrder = currentSpecializationStudents.maxOfOrNull { it.priorityOrder }?.plus(1) ?: 0
+
+        // Adding students from the main theme that are not in the specialization
+        val studentsToAdd = theme.priorityStudents
+            .filter { student -> student.id !in existingStudentIds }
+            .mapIndexed { index, student ->
+                ThemeSpecializationStudent(
+                    theme = theme,
+                    specializationName = specializationName,
+                    student = student,
+                    priorityOrder = nextPriorityOrder + index
+                )
+            }
+
+        if (studentsToAdd.isNotEmpty()) {
+            themeSpecializationStudentRepository.saveAll(studentsToAdd)
+            log.info("Added {} students to specialization {}", studentsToAdd.size, specializationName)
+        } else {
+            log.info("No new students to add to specialization {}", specializationName)
+        }
+
+        return themesRepository.findById(themeId)
+            .orElseThrow { ThemeNotFoundException(themeId) }
+            .toResponseDto()
     }
 }

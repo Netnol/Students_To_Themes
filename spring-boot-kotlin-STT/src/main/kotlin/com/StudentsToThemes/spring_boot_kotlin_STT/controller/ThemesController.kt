@@ -8,6 +8,7 @@ import com.StudentsToThemes.spring_boot_kotlin_STT.DTO.ThemeResponseDto
 import com.StudentsToThemes.spring_boot_kotlin_STT.DTO.ThemeWithPriorityDto
 import com.StudentsToThemes.spring_boot_kotlin_STT.DTO.UpdateThemePriorityRequest
 import com.StudentsToThemes.spring_boot_kotlin_STT.DTO.UpdateThemeRequest
+import com.StudentsToThemes.spring_boot_kotlin_STT.service.MLSortingService
 import com.StudentsToThemes.spring_boot_kotlin_STT.service.ThemesService
 import jakarta.validation.Valid
 import org.slf4j.LoggerFactory
@@ -25,7 +26,8 @@ import java.util.UUID
 @RestController
 @RequestMapping("/themes")
 class ThemesController(
-    private val themesService: ThemesService
+    private val themesService: ThemesService,
+    private val mlSortingService: MLSortingService
 ) {
     private val log = LoggerFactory.getLogger(ThemesController::class.java)
 
@@ -241,23 +243,6 @@ class ThemesController(
     }
 
     /**
-     * Get the students in a specialization of a theme.
-     * @param themeId the id of the theme to get the students from
-     * @param specializationName the name of the specialization to get the students from
-     * @param limit the maximum number of students to return
-     * @return a list of students in the specialization
-     */
-    @GetMapping("/{themeId}/specializations/{specializationName}/students")
-    fun getSpecializationStudents(
-        @PathVariable themeId: UUID,
-        @PathVariable specializationName: String,
-        @RequestParam(required = false) limit: Int?
-    ): List<StudentWithPriorityDto> {
-        log.debug("GET /themes/{}/specializations/{}/students?limit={}", themeId, specializationName, limit)
-        return themesService.getSpecializationStudents(themeId, specializationName, limit)
-    }
-
-    /**
      * Add a student to a specialization in a theme.
      * @param themeId the id of the theme to add the student to
      * @param specializationName the name of the specialization to add the student to
@@ -345,5 +330,129 @@ class ThemesController(
     ): ThemeResponseDto {
         log.debug("PUT /themes/{}/specializations with: {}", themeId, specializations)
         return themesService.updateThemeSpecializations(themeId, specializations)
+    }
+
+    /**
+     * Apply ML sorting to a specialization
+     * @param themeId the id of the theme to apply ML sorting to
+     * @param specializationName the name of the specialization to apply ML sorting to
+     * @return the updated theme
+     */
+    @PostMapping("/{themeId}/specializations/{specializationName}/ml-sort")
+    fun applyMLSortingToSpecialization(
+        @PathVariable themeId: UUID,
+        @PathVariable specializationName: String
+    ): ThemeResponseDto {
+        log.debug("POST /themes/{}/specializations/{}/ml-sort", themeId, specializationName)
+        return themesService.applyMLSortingToSpecialization(themeId, specializationName)
+    }
+
+    /**
+     * Get the students in a specialization of a theme with optional filters
+     * @param themeId the id of the theme to get the students from
+     * @param specializationName the name of the specialization to get the students from
+     * @param limit the maximum number of students to return
+     * @param useMLSorting whether to use ML sorting
+     * @param onlyActive whether to show only active students
+     * @return a list of students in the specialization
+     */
+    @GetMapping("/{themeId}/specializations/{specializationName}/students")
+    fun getSpecializationStudents(
+        @PathVariable themeId: UUID,
+        @PathVariable specializationName: String,
+        @RequestParam(required = false) limit: Int?,
+        @RequestParam(required = false, defaultValue = "false") useMLSorting: Boolean,
+        @RequestParam(required = false, defaultValue = "false") onlyActive: Boolean
+    ): List<StudentWithPriorityDto> {
+        log.debug("GET /themes/{}/specializations/{}/students?limit={}&useMLSorting={}&onlyActive={}",
+            themeId, specializationName, limit, useMLSorting, onlyActive)
+        return themesService.getSpecializationStudents(themeId, specializationName, limit, useMLSorting, onlyActive)
+    }
+
+    /**
+     * Check ML service health
+     * @return health status
+     */
+    @GetMapping("/ml-health")
+    fun getMLHealth(): Map<String, Any> {
+        log.debug("GET /themes/ml-health")
+
+        val isHealthy = mlSortingService.isServiceAvailable()
+        return mapOf(
+            "status" to if (isHealthy) "healthy" else "unhealthy",
+            "service" to "ML Matching Service"
+        )
+    }
+
+    /**
+     * Copy students from theme to all specializations
+     * @param themeId the id of the theme to copy the students from
+     * @return the updated theme
+     */
+    @PostMapping("/{themeId}/copy-to-specializations")
+    fun copyThemeStudentsToSpecializations(
+        @PathVariable themeId: UUID
+    ): ThemeResponseDto {
+        log.debug("POST /themes/{}/copy-to-specializations", themeId)
+        return themesService.copyThemeStudentsToSpecializations(themeId)
+    }
+
+    /**
+     * Change activity of students in a specialization
+     * @param themeId the id of the theme
+     * @param specializationName the name of the specialization
+     * @param request the request containing the new activity status
+     * @return the updated theme
+     */
+    @PutMapping("/{themeId}/specializations/{specializationName}/activity")
+    fun changeStudentsActivityInSpecialization(
+        @PathVariable themeId: UUID,
+        @PathVariable specializationName: String,
+        @RequestBody request: ActiveRequest
+    ): ThemeResponseDto {
+        log.debug("PUT /themes/{}/specializations/{}/activity with active: {}",
+            themeId, specializationName, request.active)
+        return themesService.changeStudentsActivityInSpecialization(themeId, specializationName, request.active)
+    }
+
+    /**
+     * Apply ML sorting to all specializations in a theme
+     * @param themeId the id of the theme to apply ML sorting to
+     * @return the updated theme
+     */
+    @PostMapping("/{themeId}/ml-sort-all")
+    fun applyMLSortingToTheme(
+        @PathVariable themeId: UUID
+    ): ThemeResponseDto {
+        log.debug("POST /themes/{}/ml-sort-all", themeId)
+        return themesService.applyMLSortingToTheme(themeId)
+    }
+
+    /**
+     * Add students from theme to all specializations without removing existing ones
+     * @param themeId the id of the theme to add the students from
+     * @return the updated theme
+     */
+    @PostMapping("/{themeId}/add-to-specializations")
+    fun addThemeStudentsToSpecializations(
+        @PathVariable themeId: UUID
+    ): ThemeResponseDto {
+        log.debug("POST /themes/{}/add-to-specializations", themeId)
+        return themesService.addThemeStudentsToSpecializations(themeId)
+    }
+
+    /**
+     * Add students from theme to a specific specialization without removing existing ones
+     * @param themeId the id of the theme to add the students from
+     * @param specializationName the name of the specialization to add the students to
+     * @return the updated theme
+     */
+    @PostMapping("/{themeId}/specializations/{specializationName}/add-from-theme")
+    fun addThemeStudentsToSpecialization(
+        @PathVariable themeId: UUID,
+        @PathVariable specializationName: String
+    ): ThemeResponseDto {
+        log.debug("POST /themes/{}/specializations/{}/add-from-theme", themeId, specializationName)
+        return themesService.addThemeStudentsToSpecialization(themeId, specializationName)
     }
 }

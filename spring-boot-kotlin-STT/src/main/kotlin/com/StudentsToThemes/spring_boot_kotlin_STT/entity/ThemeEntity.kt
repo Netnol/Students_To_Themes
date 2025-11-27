@@ -64,6 +64,14 @@ class ThemeEntity(
     @OrderBy("priorityOrder ASC")
     var specializationStudents: MutableList<ThemeSpecializationStudent> = mutableListOf(),
 
+    @ElementCollection
+    @CollectionTable(
+        name = "theme_ml_sorted_specializations",
+        joinColumns = [JoinColumn(name = "theme_id")]
+    )
+    @Column(name = "specialization_name")
+    val mlSortedSpecializations: MutableSet<String> = mutableSetOf(),
+
     @CreationTimestamp
     var createdAt: Instant = Instant.now(),
 

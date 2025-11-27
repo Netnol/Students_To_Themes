@@ -27,7 +27,8 @@ fun ThemeEntity.toResponseDto() = ThemeResponseDto(
                         studentName = entity.student.name,
                         priority = entity.priorityOrder,
                         hardSkill = entity.student.hardSkill,
-                        background = entity.student.background
+                        background = entity.student.background,
+                        active = entity.student.active
                     )
                 }
         },
