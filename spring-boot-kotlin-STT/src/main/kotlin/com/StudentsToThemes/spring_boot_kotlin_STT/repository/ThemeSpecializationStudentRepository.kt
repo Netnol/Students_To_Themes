@@ -1,6 +1,6 @@
 package com.StudentsToThemes.spring_boot_kotlin_STT.repository
 
-import com.StudentsToThemes.spring_boot_kotlin_STT.ThemeSpecializationStudent
+import com.StudentsToThemes.spring_boot_kotlin_STT.entity.ThemeSpecializationStudent
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param

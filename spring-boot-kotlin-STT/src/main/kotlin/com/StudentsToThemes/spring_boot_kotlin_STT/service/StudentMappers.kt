@@ -1,12 +1,8 @@
 package com.StudentsToThemes.spring_boot_kotlin_STT.service
 
-import com.StudentsToThemes.spring_boot_kotlin_STT.CreateStudentRequest
-import com.StudentsToThemes.spring_boot_kotlin_STT.StudentResponseDto
-import com.StudentsToThemes.spring_boot_kotlin_STT.StudentEntity
-import com.StudentsToThemes.spring_boot_kotlin_STT.StudentNotFoundException
-import com.StudentsToThemes.spring_boot_kotlin_STT.UpdateStudentRequest
-import java.time.Instant
-import java.util.UUID
+import com.StudentsToThemes.spring_boot_kotlin_STT.DTO.CreateStudentRequest
+import com.StudentsToThemes.spring_boot_kotlin_STT.DTO.StudentResponseDto
+import com.StudentsToThemes.spring_boot_kotlin_STT.entity.StudentEntity
 
 fun StudentEntity.toResponseDto() = StudentResponseDto(
     id = this.id!!,

@@ -1,9 +1,9 @@
 package com.StudentsToThemes.spring_boot_kotlin_STT.service
 
-import com.StudentsToThemes.spring_boot_kotlin_STT.CreateThemeRequest
-import com.StudentsToThemes.spring_boot_kotlin_STT.StudentWithPriorityDto
-import com.StudentsToThemes.spring_boot_kotlin_STT.ThemeResponseDto
-import com.StudentsToThemes.spring_boot_kotlin_STT.ThemeEntity
+import com.StudentsToThemes.spring_boot_kotlin_STT.DTO.CreateThemeRequest
+import com.StudentsToThemes.spring_boot_kotlin_STT.DTO.StudentWithPriorityDto
+import com.StudentsToThemes.spring_boot_kotlin_STT.DTO.ThemeResponseDto
+import com.StudentsToThemes.spring_boot_kotlin_STT.entity.ThemeEntity
 
 //Need to change
 fun ThemeEntity.toResponseDto() = ThemeResponseDto(

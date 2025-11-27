@@ -1,12 +1,11 @@
 package com.StudentsToThemes.spring_boot_kotlin_STT.service
 
-import com.StudentsToThemes.spring_boot_kotlin_STT.CreateStudentRequest
-import com.StudentsToThemes.spring_boot_kotlin_STT.StudentResponseDto
-import com.StudentsToThemes.spring_boot_kotlin_STT.StudentNotFoundException
-import com.StudentsToThemes.spring_boot_kotlin_STT.UpdateStudentRequest
+import com.StudentsToThemes.spring_boot_kotlin_STT.DTO.CreateStudentRequest
+import com.StudentsToThemes.spring_boot_kotlin_STT.DTO.StudentResponseDto
+import com.StudentsToThemes.spring_boot_kotlin_STT.exception.StudentNotFoundException
+import com.StudentsToThemes.spring_boot_kotlin_STT.DTO.UpdateStudentRequest
 import com.StudentsToThemes.spring_boot_kotlin_STT.repository.StudentsRepository
 import org.slf4j.LoggerFactory
-import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import java.time.Instant
 import java.util.UUID

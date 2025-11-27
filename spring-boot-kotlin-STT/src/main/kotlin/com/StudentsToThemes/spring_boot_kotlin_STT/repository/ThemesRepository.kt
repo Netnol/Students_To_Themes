@@ -1,6 +1,6 @@
 package com.StudentsToThemes.spring_boot_kotlin_STT.repository
 
-import com.StudentsToThemes.spring_boot_kotlin_STT.ThemeEntity
+import com.StudentsToThemes.spring_boot_kotlin_STT.entity.ThemeEntity
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
