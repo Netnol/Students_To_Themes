@@ -4,6 +4,7 @@ import com.StudentsToThemes.spring_boot_kotlin_STT.DTO.CreateStudentRequest
 import com.StudentsToThemes.spring_boot_kotlin_STT.DTO.StudentResponseDto
 import com.StudentsToThemes.spring_boot_kotlin_STT.exception.StudentNotFoundException
 import com.StudentsToThemes.spring_boot_kotlin_STT.DTO.UpdateStudentRequest
+import com.StudentsToThemes.spring_boot_kotlin_STT.queriesBuilder.StudentSpecifications
 import com.StudentsToThemes.spring_boot_kotlin_STT.repository.StudentsRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
