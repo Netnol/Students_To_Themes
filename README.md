@@ -10,7 +10,7 @@
 - [Полное описание API](#полное-описание-api)
 - [ML Сервис](#ml-сервис)
 - [База данных](#база-данных)
-- [Разработка](#разработка)
+- [Структура Проекта](#cтруктура_проекта)
 - [Деплоймент](#деплоймент)
 - [Примеры использования](#примеры-использования)
 - [Устранение неисправностей](#устранение-неисправностей)
@@ -178,99 +178,6 @@ curl http://localhost:8080/themes/ml-health
 ```
 
 ## <a id = "конфигурация">⚙️ Конфигурация </a>
-
-### Файлы конфигурации Spring Boot
-
-**application.yml** (основная конфигурация):
-```yaml
-spring:
-  application:
-    name: spring-boot-kotlin-STT
-  datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/student_themes}
-    username: ${DATABASE_USERNAME:postgres}
-    password: ${POSTGRES_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-    hikari:
-      maximum-pool-size: 20
-      minimum-idle: 5
-  jpa:
-    open-in-view: false
-    properties:
-      hibernate:
-        jdbc.batch_size: 20
-        order_inserts: true
-        order_updates: true
-
-logging:
-  level:
-    com.StudentsToThemes.spring_boot_kotlin_STT: DEBUG
-    org.springframework.web: INFO
-    org.hibernate: WARN
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"
-  file:
-    name: "logs/application.log"
-
-server:
-  port: ${PORT:8080}
-  servlet:
-    context-path: /api
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,metrics
-```
-
-**application-dev.yml** (разработка):
-```yaml
-spring:
-  application:
-    version: 1.0.0-dev
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
-        use_sql_comments: true
-  # В DEV отключаем Flyway - пусть Hibernate управляет схемой
-  flyway:
-    enabled: false
-
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-```
-
-**application-prod.yml** (продакшен):
-```yaml
-spring:
-  application:
-    version: 1.0.0-prod
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate:
-        show_sql: false
-        format_sql: false
-  # В PROD включаем Flyway для управления миграциями
-  flyway:
-    enabled: true
-    locations: classpath:db/migration
-    baseline-on-migrate: true
-
-logging:
-  level:
-    com.StudentsToThemes.spring_boot_kotlin_STT: INFO
-    org.springframework: WARN
-```
-
 ### Конфигурация ML сервиса
 
 ML сервис можно кастомизировать через параметры:
@@ -285,6 +192,29 @@ matcher = CSVStudentTopicMatcher(
 # - 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2' (рекомендуется)
 # - 'sentence-transformers/paraphrase-multilingual-mpnet-base-v2' (больше точность, больше памяти)
 # - 'sentence-transformers/all-MiniLM-L6-v2' (быстрее, меньше памяти)
+```
+
+### Сборка и запуск
+
+**Локальная разработка:**
+```bash
+# Запуск с профилем разработки
+./gradlew bootRun --args='--spring.profiles.active=dev'
+
+# Или через IDE:
+# Установите активный профиль: dev
+```
+
+**Производственная сборка:**
+```bash
+# Очистка и сборка
+./gradlew clean build
+
+# Пропуск тестов (для быстрой сборки)
+./gradlew build -x test
+
+# Сборка с зависимостями
+./gradlew bootJar
 ```
 
 ## <a id = "полное-описание-api">📡 Полное описание API </a>
@@ -1407,151 +1337,157 @@ CREATE INDEX idx_theme_student_priority_student ON theme_student_priority(studen
 CREATE INDEX idx_theme_specializations_theme ON theme_specializations(theme_id);
 ```
 
-## <a id = "разработка">💻 Разработка </a>
+## <a id = "cтруктура_проекта">💻 Структура проекта</a>
 
-### Структура проекта
+## Архитектура проекта
 
 ```
 spring-boot-kotlin-STT/
 ├── src/main/kotlin/com/StudentsToThemes/spring_boot_kotlin_STT/
-│   ├── controller/
-│   │   ├── StudentsController.kt          # 14 endpoints
-│   │   └── ThemesController.kt            # 29 endpoints
-│   ├── service/
-│   │   ├── StudentsService.kt             # Бизнес-логика студентов
-│   │   ├── ThemesService.kt               # Бизнес-логика тем
-│   │   └── MLSortingService.kt            # Интеграция с ML сервисом
-│   ├── repository/
-│   │   ├── StudentsRepository.kt          # Spring Data JPA
-│   │   ├── ThemesRepository.kt            # Репозиторий тем
-│   │   └── ThemeSpecializationStudentRepository.kt
-│   ├── entity/
-│   │   ├── StudentEntity.kt               # JPA сущность студента
-│   │   ├── ThemeEntity.kt                 # JPA сущность темы
-│   │   └── ThemeSpecializationStudent.kt  # Связь студент-специализация
-│   ├── DTO/
-│   │   ├── StudentResponseDto.kt          # Response DTO
-│   │   ├── ThemeResponseDto.kt            # Response DTO
-│   │   ├── CreateStudentRequest.kt        # Request DTO
-│   │   ├── CreateThemeRequest.kt          # Request DTO
-│   │   ├── StudentWithPriorityDto.kt      # DTO с приоритетом
-│   │   ├── ThemeWithPriorityDto.kt        # DTO темы с приоритетом
-│   │   ├── UpdateStudentRequest.kt        # Request DTO
-│   │   ├── UpdateThemeRequest.kt          # Request DTO
-│   │   ├── UpdateThemePriorityRequest.kt  # Request DTO
-│   │   ├── SpecializationRequest.kt       # Request DTO
-│   │   ├── ActiveRequest.kt               # Request DTO
-│   │   └── ChangeActivitiesRequest.kt     # Request DTO
-│   ├── exception/
-│   │   ├── GlobalExceptionHandler.kt      # Обработчик исключений
-│   │   ├── StudentNotFoundException.kt    # Кастомное исключение
-│   │   └── ThemeNotFoundException.kt      # Кастомное исключение
-│   ├── queriesBuilder/
-│   │   └── ThemeSpecifications.kt         # Динамические запросы
-│   └── SpringBootKotlinSttApplication.kt  # Главный класс
+│   ├── controller/                    # REST контроллеры
+│   │   ├── StudentsController.kt     # Контроллер для работы со студентами
+│   │   └── ThemesController.kt       # Контроллер для работы с темами
+│   ├── service/                      # Сервисный слой
+│   │   ├── StudentsService.kt        # Сервис для студентов
+│   │   ├── ThemesService.kt          # Сервис для тем
+│   │   ├── MLSortingService.kt       # Сервис интеграции с ML
+│   │   ├── StudentMappers.kt         # Мапперы для студентов
+│   │   └── ThemeMappers.kt           # Мапперы для тем
+│   ├── repository/                   # Репозитории (Data Access Layer)
+│   │   ├── StudentsRepository.kt     # Репозиторий студентов
+│   │   ├── ThemesRepository.kt       # Репозиторий тем
+│   │   └── ThemeSpecializationStudentRepository.kt # Репозиторий связей
+│   ├── entity/                       # JPA сущности
+│   │   ├── StudentEntity.kt          # Сущность студента
+│   │   ├── ThemeEntity.kt            # Сущность темы
+│   │   └── ThemeSpecializationStudent.kt # Связь студента и специализации
+│   ├── DTO/                         # Data Transfer Objects
+│   │   ├── StudentResponseDto.kt     # DTO ответа студента
+│   │   ├── ThemeResponseDto.kt       # DTO ответа темы
+│   │   ├── CreateStudentRequest.kt   # DTO создания студента
+│   │   ├── UpdateStudentRequest.kt   # DTO обновления студента
+│   │   ├── CreateThemeRequest.kt     # DTO создания темы
+│   │   ├── UpdateThemeRequest.kt     # DTO обновления темы
+│   │   ├── ActiveRequest.kt          # DTO активности
+│   │   ├── ChangeActivitiesRequest.kt # DTO изменения активности
+│   │   ├── StudentWithPriorityDto.kt # DTO студента с приоритетом
+│   │   ├── ThemeWithPriorityDto.kt   # DTO темы с приоритетом
+│   │   ├── SpecializationRequest.kt  # DTO специализации
+│   │   └── UpdateThemePriorityRequest.kt # DTO обновления приоритета
+│   ├── exception/                    # Обработка исключений
+│   │   ├── StudentNotFoundException.kt
+│   │   ├── ThemeNotFoundException.kt
+│   │   └── GlobalExceptionHandler.kt
+│   ├── queriesBuilder/              # Построители запросов и спецификации
+│   │   ├── StudentSpecifications.kt # Спецификации для динамического поиска студентов
+│   │   └── ThemeSpecifications.kt   # Спецификации для динамического поиска тем
+│   └── SpringBootKotlinSttApplication.kt # Главный класс приложения
 ├── src/main/resources/
-│   ├── application.yml                    # Основная конфигурация
-│   ├── application-dev.yml               # Конфигурация разработки
-│   ├── application-prod.yml              # Конфигурация продакшена
-│   └── db/migration/                     # Миграции базы данных
-├── ml-service/
-│   └── main.py                           # ML сервис на Python
-├── build.gradle.kts                      # Конфигурация сборки
-└── README.md                            # Документация
+│   ├── application.yml              # Основная конфигурация
+│   ├── application-dev.yml          # Конфигурация разработки
+│   ├── application-prod.yml         # Конфигурация продакшена
+│   └── db/migration/               # Миграции базы данных
+│       └── V2__Add_performance_indexes.sql
+├── ml-service/                      # ML-сервис (отдельный проект)
+│   └── main.py                     # Python ML-сервис
+└── build.gradle.kts                 # Конфигурация сборки
 ```
 
-### Сборка и запуск
+## Модули и их ответственность
 
-**Локальная разработка:**
-```bash
-# Запуск с профилем разработки
-./gradlew bootRun --args='--spring.profiles.active=dev'
+### 1. **Слой контроллеров (`controller/`)**
+- **StudentsController**: Управление REST эндпоинтами для студентов (CRUD операции, фильтрация, изменение активности)
+- **ThemesController**: Управление REST эндпоинтами для тем (CRUD, управление студентами в темах, специализации, ML-сортировка)
 
-# Или через IDE:
-# Установите активный профиль: dev
+### 2. **Сервисный слой (`service/`)**
+- **StudentsService**: Бизнес-логика для операций со студентами
+- **ThemesService**: Бизнес-логика для операций с темами и специализациями
+- **MLSortingService**: Интеграция с внешним ML-сервисом для сортировки студентов
+- **Мапперы**: Преобразование между сущностями и DTO (StudentMappers.kt, ThemeMappers.kt)
+
+### 3. **Слой доступа к данным (`repository/`)**
+- **StudentsRepository**: CRUD операции для сущности StudentEntity
+- **ThemesRepository**: CRUD операции для сущности ThemeEntity
+- **ThemeSpecializationStudentRepository**: Управление связями студентов и специализаций
+
+### 4. **Сущности (`entity/`)**
+- **StudentEntity**: Представляет студента в системе
+- **ThemeEntity**: Представляет тему (проект) с возможностью специализаций
+- **ThemeSpecializationStudent**: Связь многие-ко-многим между студентами и специализациями тем
+
+### 5. **DTO слои (`DTO/`)**
+- **Запросы (Request DTOs)**: Валидация входных данных
+- **Ответы (Response DTOs)**: Структурированные ответы API
+- **Специализированные DTOs**: Для конкретных операций (сортировка, приоритеты)
+
+### 6. **Построители запросов (`queriesBuilder/`)**
+- **StudentSpecifications**: Реализация спецификаций для динамической фильтрации студентов по различным полям
+- **ThemeSpecifications**: Реализация спецификаций для динамической фильтрации тем
+
+### 7. **Обработка исключений (`exception/`)**
+- **GlobalExceptionHandler**: Централизованная обработка исключений
+- **StudentNotFoundException**, **ThemeNotFoundException**: Специализированные исключения
+
+### 8. **Инфраструктура**
+- **Конфигурационные файлы**: Поддержка разных окружений (dev/prod)
+- **Миграции базы данных**: Управление схемой БД через Flyway
+
+## Основные сущности базы данных
+
+### Student
+- `id` (UUID): Уникальный идентификатор
+- `name`, `hardSkill`, `background`, `interests`: Основная информация
+- `active`: Статус активности
+- `createdAt`, `updatedAt`: Таймстампы
+
+### Theme
+- `id` (UUID): Уникальный идентификатор
+- `name`, `description`, `author`: Описание темы
+- `specializations`: Список специализаций (массив)
+- `priorityStudents`: Основной список студентов с приоритетами
+- `mlSortedSpecializations`: Множество специализаций, отсортированных с помощью ML
+
+### ThemeSpecializationStudent (Связующая таблица)
+- Связывает студентов со специализациями тем
+- Содержит `priorityOrder` для сортировки внутри специализации
+- Гарантирует уникальность комбинации `theme_id`, `specialization_name`, `student_id`
+
+## Взаимодействие с ML-сервисом
+
+Проект интегрирован с внешним Python ML-сервисом, который:
+1. Принимает данные студентов и темы
+2. Использует эмбеддинги для семантического анализа
+3. Возвращает отсортированный список студентов для специализации
+4. Доступен по адресу: `http://localhost:8000`
+
+## Конфигурационные профили
+
+### Dev (`application-dev.yml`)
+- Автообновление схемы БД (`ddl-auto: update`)
+- Подробное логирование SQL запросов
+- Отключен Flyway
+
+### Prod (`application-prod.yml`)
+- Валидация схемы БД (`ddl-auto: validate`)
+- Включен Flyway для управления миграциями
+- Оптимизированное логирование
+
+## Поток данных
+
+```
+HTTP Request → Controller → Service → Repository → Database
+                                    ↓
+                               ML Service (при необходимости)
+                                    ↓
+HTTP Response ← Controller ← Service ← Repository ← Database
 ```
 
-**Тестирование:**
-```bash
-# Запуск unit тестов
-./gradlew test
+## Безопасность и валидация
 
-# Запуск с генерацией отчета покрытия
-./gradlew jacocoTestReport
-
-# Проверка стиля кода
-./gradlew ktlintCheck
-```
-
-**Производственная сборка:**
-```bash
-# Очистка и сборка
-./gradlew clean build
-
-# Пропуск тестов (для быстрой сборки)
-./gradlew build -x test
-
-# Сборка с зависимостями
-./gradlew bootJar
-```
-
-### Модели данных
-
-#### StudentEntity
-```kotlin
-@Entity
-@Table(name = "students")
-class StudentEntity(
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    var id: UUID? = null,
-    var name: String = "",
-    var hardSkill: String = "",
-    var background: String = "",
-    var interests: String = "",
-    var timeInWeek: String? = null,
-    var active: Boolean = true,
-    var createdAt: Instant = Instant.now(),
-    var updatedAt: Instant = Instant.now()
-) {
-    @ManyToMany(mappedBy = "priorityStudents")
-    val themes: MutableList<ThemeEntity> = mutableListOf()
-
-    @OneToMany(mappedBy = "student", cascade = [CascadeType.ALL], orphanRemoval = true)
-    val specializationThemes: MutableList<ThemeSpecializationStudent> = mutableListOf()
-}
-```
-
-#### ThemeEntity
-```kotlin
-@Entity
-@Table(name = "themes")
-class ThemeEntity(
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    var id: UUID? = null,
-    var name: String = "",
-    var description: String = "",
-    var author: String = "",
-    
-    @ElementCollection
-    var specializations: MutableList<String> = mutableListOf(),
-    
-    @ManyToMany
-    @OrderColumn(name = "priority_order")
-    var priorityStudents: MutableList<StudentEntity> = mutableListOf(),
-    
-    @OneToMany(mappedBy = "theme", cascade = [CascadeType.ALL], orphanRemoval = true)
-    @OrderBy("priorityOrder ASC")
-    var specializationStudents: MutableList<ThemeSpecializationStudent> = mutableListOf(),
-    
-    @ElementCollection
-    val mlSortedSpecializations: MutableSet<String> = mutableSetOf(),
-    
-    var createdAt: Instant = Instant.now(),
-    var updatedAt: Instant = Instant.now()
-)
-```
+- Валидация входных данных через аннотации Jakarta Validation
+- Централизованная обработка исключений
+- Логирование всех операций на разных уровнях
+- Поддержка транзакций через Spring Data JPA
 
 ## <a id = "деплоймент">🚀 Деплоймент </a>
 
@@ -1946,9 +1882,9 @@ curl -X DELETE "http://localhost:8080/api/themes/all"
 ### Полезные ссылки
 
 - **Документация API**: 
-- **ML Service Docs**: http://localhost:8000/docs
+- **ML Service Docs**:
 - **База данных**: 
-- **Мониторинг**: http://localhost:8080/api/actuator
+- **Мониторинг**:
 
 ---
 
