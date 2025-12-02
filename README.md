@@ -1,4 +1,4 @@
-<img width="1049" height="590" alt="image" src="https://github.com/user-attachments/assets/acff5717-0ad8-45bb-8ea6-da3472dba797" /># Student-Themes Matching System - Полная документация
+# Student-Themes Matching System - Полная документация
 
 ## 📋 Содержание
 
