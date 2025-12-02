@@ -147,10 +147,10 @@ gradle --version  # Должна быть 7.4 или выше
 <img width="824" height="705" alt="image" src="https://github.com/user-attachments/assets/107442ce-9682-45b6-bf32-b2748f08858c" />
 
 ### 5. Вводите в поле "Enviroment variables:" строку:
-DATABASE_URL=<URL>;POSTGRES_PASSWORD=<Password>;SPRING_PROFILES_ACTIVE=<profile>
-где вместо <URL> вы подставляете строку из 12 пункта в "1. Установка и настройка базы данных", но убираете "?user=postgres&password=[YOUR_PASSWORD]" с конца строки
-вместо <Password> вставляете пароль из 6 пункта
-вместо <profile> вставляете "dev" или "prod" в зависимости от конфигурации, которую хотите использовать (в первый раз запускайте с "dev")
+DATABASE_URL="URL";POSTGRES_PASSWORD="Password";SPRING_PROFILES_ACTIVE="profile"
+где вместо "URL" вы подставляете строку из 12 пункта в "1. Установка и настройка базы данных", но убираете "?user=postgres&password=[YOUR_PASSWORD]" с конца строки
+вместо "Password" вставляете пароль из 6 пункта
+вместо "profile" вставляете "dev" или "prod" в зависимости от конфигурации, которую хотите использовать (в первый раз запускайте с "dev")
 <img width="571" height="76" alt="image" src="https://github.com/user-attachments/assets/929c72f5-d082-47a0-8149-20985ddeb8c6" />
 
 ### 5-1. Если "Enviroment variables:" нету, то:
