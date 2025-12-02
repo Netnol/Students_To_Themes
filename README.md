@@ -108,6 +108,26 @@ gradle --version  # Должна быть 7.4 или выше
 <img width="700" height="478" alt="image" src="https://github.com/user-attachments/assets/0b3b7a1b-817a-40da-bf42-92093fe109e2" />
 
 6. Создаете проект и запоминаете Database password, так как это как раз то поле, что нужно будет подать в конфигурацию POSTGRES_PASSWORD при запуске проекта Spring
+<img width="731" height="638" alt="image" src="https://github.com/user-attachments/assets/1676a1d6-f33a-4801-954b-be0c3acfb14e" />
+
+7. У вас должен был создаться проект
+<img width="3440" height="1317" alt="image" src="https://github.com/user-attachments/assets/796a6aa5-0c32-4820-9d8a-23c45f59fbd4" />
+
+8. Сверху слева есть кнопка "Connect", нажимаете её
+<img width="1415" height="265" alt="image" src="https://github.com/user-attachments/assets/b1d77aa1-d497-4ee7-8df0-f057335b324e" />
+
+9. У вас откроется такое меню
+<img width="1063" height="601" alt="image" src="https://github.com/user-attachments/assets/1c530f80-764e-40bb-93f7-3e85379679b5" />
+
+10. Нажимаете на выбор "Type"
+<img width="1037" height="733" alt="image" src="https://github.com/user-attachments/assets/4cbdcd38-b3a1-4c41-92f4-190fa5b9ec90" />
+
+11. Выбираете JDBC
+<img width="1077" height="640" alt="image" src="https://github.com/user-attachments/assets/4007db8b-3974-42b4-9d55-43cf1092da5d" />
+
+12. Сохраняете эту строку
+<img width="1030" height="597" alt="image" src="https://github.com/user-attachments/assets/4bc9e1f5-c009-4479-9923-49e2ebe410c3" />
+
 
 
 ### 2. Настройка переменных окружения
