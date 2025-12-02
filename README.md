@@ -132,6 +132,34 @@ gradle --version  # Должна быть 7.4 или выше
 
 ### 2. Настройка переменных окружения
 
+1. Если у вас есть IDEA, то:
+Открываете в ней проект
+<img width="3440" height="921" alt="image" src="https://github.com/user-attachments/assets/d5a4b0f1-5491-44b7-9b89-bb1eaed64564" />
+
+Нажимаете сверху справа на этот значок
+<img width="856" height="610" alt="image" src="https://github.com/user-attachments/assets/3631925f-cc21-459e-94dc-ed25160a020e" />
+
+Нажимаете "Edit Configurations..."
+<img width="315" height="167" alt="image" src="https://github.com/user-attachments/assets/edd6d6eb-e5e2-40ae-bb7a-3bc6074c58d6" />
+
+У вас открывается такое окно
+<img width="824" height="705" alt="image" src="https://github.com/user-attachments/assets/107442ce-9682-45b6-bf32-b2748f08858c" />
+
+Вводите в поле "Enviroment variables:" строку:
+DATABASE_URL=<URL>;POSTGRES_PASSWORD=<Password>;SPRING_PROFILES_ACTIVE=<profile>
+где вместо <URL> вы подставляете строку из 12 пункта в "1. Установка и настройка базы данных", но убираете "?user=postgres&password=[YOUR_PASSWORD]" с конца строки
+вместо <Password> вставляете пароль из 6 пункта
+вместо <profile> вставляете "dev" или "prod" в зависимости от конфигурации, которую хотите использовать (в первый раз запускайте с "dev")
+<img width="571" height="76" alt="image" src="https://github.com/user-attachments/assets/929c72f5-d082-47a0-8149-20985ddeb8c6" />
+
+Если "Enviroment variables:" нету, то:
+Нажимаете "Modify options"
+<img width="570" height="180" alt="image" src="https://github.com/user-attachments/assets/7c572a89-4439-42a0-84dd-7c5345899253" />
+
+И ваыбираете здесь "Enviroment variables"
+<img width="457" height="591" alt="image" src="https://github.com/user-attachments/assets/369864df-467f-4fa3-bc12-ac790089e449" />
+
+
 Создайте файл `.env` в корне проекта:
 
 ```properties
