@@ -132,39 +132,36 @@ gradle --version  # Должна быть 7.4 или выше
 
 ### 2. Настройка переменных окружения
 
-1. Если у вас есть IDEA, то:
-Открываете в ней проект
+## 1. Если у вас есть IDEA, то:
+# 1. Открываете в ней проект
 <img width="3440" height="921" alt="image" src="https://github.com/user-attachments/assets/d5a4b0f1-5491-44b7-9b89-bb1eaed64564" />
 
-Нажимаете сверху справа на этот значок
+# 2. Нажимаете сверху справа на этот значок
 <img width="856" height="610" alt="image" src="https://github.com/user-attachments/assets/3631925f-cc21-459e-94dc-ed25160a020e" />
 
-Нажимаете "Edit Configurations..."
+# 3. Нажимаете "Edit Configurations..."
 <img width="315" height="167" alt="image" src="https://github.com/user-attachments/assets/edd6d6eb-e5e2-40ae-bb7a-3bc6074c58d6" />
 
-У вас открывается такое окно
+# 4. У вас открывается такое окно
 <img width="824" height="705" alt="image" src="https://github.com/user-attachments/assets/107442ce-9682-45b6-bf32-b2748f08858c" />
 
-Вводите в поле "Enviroment variables:" строку:
+# 5. Вводите в поле "Enviroment variables:" строку:
 DATABASE_URL=<URL>;POSTGRES_PASSWORD=<Password>;SPRING_PROFILES_ACTIVE=<profile>
 где вместо <URL> вы подставляете строку из 12 пункта в "1. Установка и настройка базы данных", но убираете "?user=postgres&password=[YOUR_PASSWORD]" с конца строки
 вместо <Password> вставляете пароль из 6 пункта
 вместо <profile> вставляете "dev" или "prod" в зависимости от конфигурации, которую хотите использовать (в первый раз запускайте с "dev")
 <img width="571" height="76" alt="image" src="https://github.com/user-attachments/assets/929c72f5-d082-47a0-8149-20985ddeb8c6" />
 
-Если "Enviroment variables:" нету, то:
+# 5-1. Если "Enviroment variables:" нету, то:
 Нажимаете "Modify options"
 <img width="570" height="180" alt="image" src="https://github.com/user-attachments/assets/7c572a89-4439-42a0-84dd-7c5345899253" />
 
-И ваыбираете здесь "Enviroment variables"
+# 5-2. И ваыбираете здесь "Enviroment variables"
 <img width="457" height="591" alt="image" src="https://github.com/user-attachments/assets/369864df-467f-4fa3-bc12-ac790089e449" />
 
-2. Если у вас нет IDEA, то ориентируясь на то как было в IDEA, сделаете нужным вам способом:
-# Запуск проекта с переменными окружения
-
-## 1. **Подготовка переменных окружения**
-
-### Требуемые переменные:
+## 2. Если у вас нет IDEA, то ориентируясь на то как было в IDEA, сделаете нужным вам способом:
+# 1. **Подготовка переменных окружения**
+# Требуемые переменные:
 ```bash
 # Обязательные
 DATABASE_URL=jdbc:postgresql://localhost:5432/students_themes_db
@@ -178,7 +175,7 @@ ML_SERVICE_URL=http://localhost:8000
 
 ## 2. **Способы запуска**
 
-### Способ 1: Командная строка (Linux/Mac)
+# Способ 1: Командная строка (Linux/Mac)
 ```bash
 # Установка переменных окружения
 export DATABASE_URL=jdbc:postgresql://localhost:5432/students_themes_db
@@ -190,7 +187,7 @@ export PORT=8080
 ./gradlew bootRun
 ```
 
-### Способ 2: Командная строка (Windows)
+# Способ 2: Командная строка (Windows)
 ```cmd
 # Установка переменных окружения
 set DATABASE_URL=jdbc:postgresql://localhost:5432/students_themes_db
@@ -202,7 +199,7 @@ set PORT=8080
 gradlew.bat bootRun
 ```
 
-### Способ 3: One-liner (Linux/Mac)
+# Способ 3: One-liner (Linux/Mac)
 ```bash
 DATABASE_URL="jdbc:postgresql://localhost:5432/students_themes_db" \
 POSTGRES_PASSWORD="your_password" \
@@ -211,7 +208,7 @@ PORT=8080 \
 ./gradlew bootRun
 ```
 
-### Способ 4: One-liner (Windows PowerShell)
+# Способ 4: One-liner (Windows PowerShell)
 ```powershell
 $env:DATABASE_URL="jdbc:postgresql://localhost:5432/students_themes_db"; `
 $env:POSTGRES_PASSWORD="your_password"; `
@@ -222,7 +219,7 @@ $env:PORT=8080; `
 
 ## 3. **Запуск с помощью .env файла**
 
-### Создайте файл `.env` в корне проекта:
+# Создайте файл `.env` в корне проекта:
 ```env
 DATABASE_URL=jdbc:postgresql://localhost:5432/students_themes_db
 POSTGRES_PASSWORD=your_password
@@ -231,9 +228,9 @@ PORT=8080
 ML_SERVICE_URL=http://localhost:8000
 ```
 
-### Запуск с использованием .env файла:
+# Запуск с использованием .env файла:
 
-#### Linux/Mac (с установкой `direnv` или `dotenv`):
+## Linux/Mac (с установкой `direnv` или `dotenv`):
 ```bash
 # Установите direnv
 brew install direnv
@@ -246,7 +243,7 @@ direnv allow
 ./gradlew bootRun
 ```
 
-#### Альтернатива: использование bash-скрипта
+## Альтернатива: использование bash-скрипта
 Создайте файл `run.sh`:
 ```bash
 #!/bin/bash
@@ -268,7 +265,7 @@ chmod +x run.sh
 
 ## 4. **Запуск в Docker с переменными окружения**
 
-### Dockerfile:
+# Dockerfile:
 ```dockerfile
 FROM openjdk:17-jdk-slim
 WORKDIR /app
@@ -277,7 +274,7 @@ EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
-### Docker Compose (рекомендуется):
+# Docker Compose (рекомендуется):
 ```yaml
 version: '3.8'
 
@@ -314,7 +311,7 @@ volumes:
   postgres_data:
 ```
 
-### Запуск Docker Compose:
+# Запуск Docker Compose:
 ```bash
 # Создайте файл .env
 echo "POSTGRES_PASSWORD=your_password" > .env
@@ -323,17 +320,6 @@ echo "SPRING_PROFILES_ACTIVE=prod" >> .env
 # Запустите
 docker-compose up --build
 ```
-
-## 5. **Запуск в IntelliJ IDEA**
-
-1. Откройте проект в IntelliJ IDEA
-2. Перейдите в `Run → Edit Configurations`
-3. Выберите конфигурацию Spring Boot
-4. В поле `Environment variables` добавьте:
-   ```
-   DATABASE_URL=jdbc:postgresql://localhost:5432/students_themes_db;POSTGRES_PASSWORD=your_password;SPRING_PROFILES_ACTIVE=dev
-   ```
-5. Или используйте `Modify options → Environment variables` для графического интерфейса
 
 ## 6. **Запуск готового JAR файла**
 
@@ -350,7 +336,7 @@ java -jar build/libs/spring-boot-kotlin-STT-*.jar
 
 ## 7. **Проверка переменных окружения**
 
-Добавьте в код для отладки (временный):
+Если вы хотте проверить, то добавьте в код для отладки (временный):
 
 ```kotlin
 @SpringBootApplication
@@ -367,7 +353,7 @@ class SpringBootKotlinSttApplication {
 
 ## 8. **Примеры для разных окружений**
 
-### Локальная разработка (dev):
+# Локальная разработка (dev):
 ```bash
 export DATABASE_URL=jdbc:postgresql://localhost:5432/students_themes_dev
 export POSTGRES_PASSWORD=dev_password
@@ -376,7 +362,7 @@ export ML_SERVICE_URL=http://localhost:8000
 ./gradlew bootRun
 ```
 
-### Продакшн (prod):
+# Продакшн (prod):
 ```bash
 export DATABASE_URL=jdbc:postgresql://prod-db.example.com:5432/students_themes_prod
 export POSTGRES_PASSWORD=secure_prod_password
@@ -385,7 +371,7 @@ export ML_SERVICE_URL=http://ml-service.prod.svc.cluster.local:8000
 java -jar app.jar
 ```
 
-### Docker-контейнер (Kubernetes):
+# Docker-контейнер (Kubernetes):
 ```yaml
 apiVersion: v1
 kind: Pod
