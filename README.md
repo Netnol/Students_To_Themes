@@ -92,7 +92,10 @@ gradle --version  # Должна быть 7.4 или выше
 ### 1. Установка и настройка базы данных
 
 Вам нужна база данных, чтобы запустить Spring-Boot, без нее он не запуститься.
-Покажу на примере Supabase
+Расскажу как все настроить на примере Supabase:
+1. Заходите на https://supabase.com/
+<img width="1477" height="1232" alt="image" src="https://github.com/user-attachments/assets/af26ea5d-acf6-4b2d-bc60-713a25e2a8f5" />
+
 
 ### 2. Настройка переменных окружения
 
