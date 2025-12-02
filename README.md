@@ -89,80 +89,80 @@ python --version  # Должна быть 3.8 или выше
 gradle --version  # Должна быть 7.4 или выше
 ```
 
-### 1. Установка и настройка базы данных
+## 1. Установка и настройка базы данных
 
 Вам нужна база данных, чтобы запустить Spring-Boot, без нее он не запуститься.
 Расскажу как все настроить на примере Supabase:
-1. Заходите на https://supabase.com/
+### 1. Заходите на https://supabase.com/
 <img width="1477" height="1232" alt="image" src="https://github.com/user-attachments/assets/af26ea5d-acf6-4b2d-bc60-713a25e2a8f5" />
 
-2. Нажимайте кнопку "Start your project"
+### 2. Нажимайте кнопку "Start your project"
 <img width="495" height="656" alt="image" src="https://github.com/user-attachments/assets/cb986342-17c0-4dd6-8690-8bff3cbe43f4" />
 
-3. Нажимайте кнопку "Sign Up Now"
+### 3. Нажимайте кнопку "Sign Up Now"
 <img width="453" height="555" alt="image" src="https://github.com/user-attachments/assets/3fdecdf0-14ca-48af-ac75-f27825ca7a5b" />
 
-4. Регистрируетесь
+### 4. Регистрируетесь
 
-5. После входа в аккаунт создете организацию (если у вас нет проекта его сразу предлагают создать при входе)
+### 5. После входа в аккаунт создете организацию (если у вас нет проекта его сразу предлагают создать при входе)
 <img width="700" height="478" alt="image" src="https://github.com/user-attachments/assets/0b3b7a1b-817a-40da-bf42-92093fe109e2" />
 
-6. Создаете проект и запоминаете Database password, так как это как раз то поле, что нужно будет подать в конфигурацию POSTGRES_PASSWORD при запуске проекта Spring
+### 6. Создаете проект и запоминаете Database password, так как это как раз то поле, что нужно будет подать в конфигурацию POSTGRES_PASSWORD при запуске проекта Spring
 <img width="731" height="638" alt="image" src="https://github.com/user-attachments/assets/1676a1d6-f33a-4801-954b-be0c3acfb14e" />
 
-7. У вас должен был создаться проект
+### 7. У вас должен был создаться проект
 <img width="3440" height="1317" alt="image" src="https://github.com/user-attachments/assets/796a6aa5-0c32-4820-9d8a-23c45f59fbd4" />
 
-8. Сверху слева есть кнопка "Connect", нажимаете её
+### 8. Сверху слева есть кнопка "Connect", нажимаете её
 <img width="1415" height="265" alt="image" src="https://github.com/user-attachments/assets/b1d77aa1-d497-4ee7-8df0-f057335b324e" />
 
-9. У вас откроется такое меню
+### 9. У вас откроется такое меню
 <img width="1063" height="601" alt="image" src="https://github.com/user-attachments/assets/1c530f80-764e-40bb-93f7-3e85379679b5" />
 
-10. Нажимаете на выбор "Type"
+### 10. Нажимаете на выбор "Type"
 <img width="1037" height="733" alt="image" src="https://github.com/user-attachments/assets/4cbdcd38-b3a1-4c41-92f4-190fa5b9ec90" />
 
-11. Выбираете JDBC
+### 11. Выбираете JDBC
 <img width="1077" height="640" alt="image" src="https://github.com/user-attachments/assets/4007db8b-3974-42b4-9d55-43cf1092da5d" />
 
-12. Сохраняете эту строку
+###12. Сохраняете эту строку
 <img width="1030" height="597" alt="image" src="https://github.com/user-attachments/assets/4bc9e1f5-c009-4479-9923-49e2ebe410c3" />
 
-13. Также у вас могут быть проблемы с подключением по "Dirrect connection", тогда смените его на Session Pooler и сохраняете новую строку JDBC как в пункте 12
+###13. Также у вас могут быть проблемы с подключением по "Dirrect connection", тогда смените его на Session Pooler и сохраняете новую строку JDBC как в пункте 12
 <img width="1049" height="590" alt="image" src="https://github.com/user-attachments/assets/708bb15e-409d-4697-847b-a0749d207e9c" />
 
-### 2. Настройка переменных окружения
+## 2. Настройка переменных окружения
 
 ## 1. Если у вас есть IDEA, то:
-# 1. Открываете в ней проект
+### 1. Открываете в ней проект
 <img width="3440" height="921" alt="image" src="https://github.com/user-attachments/assets/d5a4b0f1-5491-44b7-9b89-bb1eaed64564" />
 
-# 2. Нажимаете сверху справа на этот значок
+### 2. Нажимаете сверху справа на этот значок
 <img width="856" height="610" alt="image" src="https://github.com/user-attachments/assets/3631925f-cc21-459e-94dc-ed25160a020e" />
 
-# 3. Нажимаете "Edit Configurations..."
+### 3. Нажимаете "Edit Configurations..."
 <img width="315" height="167" alt="image" src="https://github.com/user-attachments/assets/edd6d6eb-e5e2-40ae-bb7a-3bc6074c58d6" />
 
-# 4. У вас открывается такое окно
+### 4. У вас открывается такое окно
 <img width="824" height="705" alt="image" src="https://github.com/user-attachments/assets/107442ce-9682-45b6-bf32-b2748f08858c" />
 
-# 5. Вводите в поле "Enviroment variables:" строку:
+### 5. Вводите в поле "Enviroment variables:" строку:
 DATABASE_URL=<URL>;POSTGRES_PASSWORD=<Password>;SPRING_PROFILES_ACTIVE=<profile>
 где вместо <URL> вы подставляете строку из 12 пункта в "1. Установка и настройка базы данных", но убираете "?user=postgres&password=[YOUR_PASSWORD]" с конца строки
 вместо <Password> вставляете пароль из 6 пункта
 вместо <profile> вставляете "dev" или "prod" в зависимости от конфигурации, которую хотите использовать (в первый раз запускайте с "dev")
 <img width="571" height="76" alt="image" src="https://github.com/user-attachments/assets/929c72f5-d082-47a0-8149-20985ddeb8c6" />
 
-# 5-1. Если "Enviroment variables:" нету, то:
+### 5-1. Если "Enviroment variables:" нету, то:
 Нажимаете "Modify options"
 <img width="570" height="180" alt="image" src="https://github.com/user-attachments/assets/7c572a89-4439-42a0-84dd-7c5345899253" />
 
-# 5-2. И ваыбираете здесь "Enviroment variables"
+### 5-2. И ваыбираете здесь "Enviroment variables"
 <img width="457" height="591" alt="image" src="https://github.com/user-attachments/assets/369864df-467f-4fa3-bc12-ac790089e449" />
 
-## 2. Если у вас нет IDEA, то ориентируясь на то как было в IDEA, сделаете нужным вам способом:
-# 1. **Подготовка переменных окружения**
-# Требуемые переменные:
+### 2. Если у вас нет IDEA, то ориентируясь на то как было в IDEA, сделаете нужным вам способом:
+#### 1. **Подготовка переменных окружения**
+#### Требуемые переменные:
 ```bash
 # Обязательные
 DATABASE_URL=jdbc:postgresql://localhost:5432/students_themes_db
@@ -176,7 +176,7 @@ ML_SERVICE_URL=http://localhost:8000
 
 ## 2. **Способы запуска**
 
-# Способ 1: Командная строка (Linux/Mac)
+### Способ 1: Командная строка (Linux/Mac)
 ```bash
 # Установка переменных окружения
 export DATABASE_URL=jdbc:postgresql://localhost:5432/students_themes_db
@@ -188,7 +188,7 @@ export PORT=8080
 ./gradlew bootRun
 ```
 
-# Способ 2: Командная строка (Windows)
+### Способ 2: Командная строка (Windows)
 ```cmd
 # Установка переменных окружения
 set DATABASE_URL=jdbc:postgresql://localhost:5432/students_themes_db
@@ -200,7 +200,7 @@ set PORT=8080
 gradlew.bat bootRun
 ```
 
-# Способ 3: One-liner (Linux/Mac)
+### Способ 3: One-liner (Linux/Mac)
 ```bash
 DATABASE_URL="jdbc:postgresql://localhost:5432/students_themes_db" \
 POSTGRES_PASSWORD="your_password" \
@@ -209,7 +209,7 @@ PORT=8080 \
 ./gradlew bootRun
 ```
 
-# Способ 4: One-liner (Windows PowerShell)
+### Способ 4: One-liner (Windows PowerShell)
 ```powershell
 $env:DATABASE_URL="jdbc:postgresql://localhost:5432/students_themes_db"; `
 $env:POSTGRES_PASSWORD="your_password"; `
@@ -220,7 +220,7 @@ $env:PORT=8080; `
 
 ## 3. **Запуск с помощью .env файла**
 
-# Создайте файл `.env` в корне проекта:
+### Создайте файл `.env` в корне проекта:
 ```env
 DATABASE_URL=jdbc:postgresql://localhost:5432/students_themes_db
 POSTGRES_PASSWORD=your_password
@@ -229,9 +229,9 @@ PORT=8080
 ML_SERVICE_URL=http://localhost:8000
 ```
 
-# Запуск с использованием .env файла:
+### Запуск с использованием .env файла:
 
-## Linux/Mac (с установкой `direnv` или `dotenv`):
+#### Linux/Mac (с установкой `direnv` или `dotenv`):
 ```bash
 # Установите direnv
 brew install direnv
@@ -244,7 +244,7 @@ direnv allow
 ./gradlew bootRun
 ```
 
-## Альтернатива: использование bash-скрипта
+#### Альтернатива: использование bash-скрипта
 Создайте файл `run.sh`:
 ```bash
 #!/bin/bash
@@ -264,9 +264,9 @@ chmod +x run.sh
 ./run.sh
 ```
 
-## 4. **Запуск в Docker с переменными окружения**
+### 4. **Запуск в Docker с переменными окружения**
 
-# Dockerfile:
+#### Dockerfile:
 ```dockerfile
 FROM openjdk:17-jdk-slim
 WORKDIR /app
@@ -275,7 +275,7 @@ EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
-# Docker Compose (рекомендуется):
+#### Docker Compose (рекомендуется):
 ```yaml
 version: '3.8'
 
@@ -312,7 +312,7 @@ volumes:
   postgres_data:
 ```
 
-# Запуск Docker Compose:
+#### Запуск Docker Compose:
 ```bash
 # Создайте файл .env
 echo "POSTGRES_PASSWORD=your_password" > .env
@@ -322,7 +322,7 @@ echo "SPRING_PROFILES_ACTIVE=prod" >> .env
 docker-compose up --build
 ```
 
-## 6. **Запуск готового JAR файла**
+### 6. **Запуск готового JAR файла**
 
 ```bash
 # Сборка проекта
@@ -335,7 +335,7 @@ SPRING_PROFILES_ACTIVE=prod \
 java -jar build/libs/spring-boot-kotlin-STT-*.jar
 ```
 
-## 7. **Проверка переменных окружения**
+### 7. **Проверка переменных окружения**
 
 Если вы хотте проверить, то добавьте в код для отладки (временный):
 
@@ -352,7 +352,7 @@ class SpringBootKotlinSttApplication {
 }
 ```
 
-## 8. **Примеры для разных окружений**
+### 8. **Примеры для разных окружений**
 
 # Локальная разработка (dev):
 ```bash
@@ -363,7 +363,7 @@ export ML_SERVICE_URL=http://localhost:8000
 ./gradlew bootRun
 ```
 
-# Продакшн (prod):
+#### Продакшн (prod):
 ```bash
 export DATABASE_URL=jdbc:postgresql://prod-db.example.com:5432/students_themes_prod
 export POSTGRES_PASSWORD=secure_prod_password
@@ -372,7 +372,7 @@ export ML_SERVICE_URL=http://ml-service.prod.svc.cluster.local:8000
 java -jar app.jar
 ```
 
-# Docker-контейнер (Kubernetes):
+#### Docker-контейнер (Kubernetes):
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -397,7 +397,7 @@ spec:
       value: "prod"
 ```
 
-## 9. **Устранение проблем**
+### 9. **Устранение проблем**
 
 Если переменные не загружаются:
 
@@ -407,7 +407,7 @@ spec:
 4. Для Windows: используйте `set` вместо `export`
 5. Перезапустите терминал/IDE после установки переменных
 
-## 10. **Быстрый старт (TL;DR)**
+### 10. **Быстрый старт (TL;DR)**
 
 ```bash
 # 1. Клонируйте репозиторий
@@ -426,12 +426,12 @@ SPRING_PROFILES_ACTIVE=dev \
 # 4. Приложение будет доступно по http://localhost:8080
 ```
 
-## Примечания:
+#### Примечания:
 - Для профиля `prod` убедитесь, что миграции Flyway применены
 - ML-сервис должен быть запущен отдельно, если используется ML-сортировка
 - Для продакшена используйте сильные пароли и защищенные соединения (SSL)
 
-### 3. Запуск Backend приложения
+#### 3. Запуск Backend приложения
 Пример:
 ```bash
 # Клонирование репозитория (если нужно)
