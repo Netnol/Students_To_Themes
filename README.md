@@ -91,26 +91,8 @@ gradle --version  # Должна быть 7.4 или выше
 
 ### 1. Установка и настройка базы данных
 
-```sql
--- Подключение к PostgreSQL как superuser
-sudo -u postgres psql
-
--- Создание базы данных
-CREATE DATABASE student_themes;
-
--- Включение расширения для UUID (обязательно)
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
--- Создание пользователя (опционально)
-CREATE USER stt_user WITH PASSWORD 'secure_password_123';
-GRANT ALL PRIVILEGES ON DATABASE student_themes TO stt_user;
-GRANT pg_read_all_data TO stt_user;
-GRANT pg_write_all_data TO stt_user;
-
--- Проверка
-\c student_themes
-SELECT version();
-```
+Вам нужна база данных, чтобы запустить Spring-Boot, без нее он не запуститься.
+Покажу на примере Supabase
 
 ### 2. Настройка переменных окружения
 
