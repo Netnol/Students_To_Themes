@@ -125,10 +125,12 @@ gradle --version  # Должна быть 7.4 или выше
 ### 11. Выбираете JDBC
 <img width="1077" height="640" alt="image" src="https://github.com/user-attachments/assets/4007db8b-3974-42b4-9d55-43cf1092da5d" />
 
-###12. Сохраняете эту строку
+### 12. Сохраняете эту строку
 <img width="1030" height="597" alt="image" src="https://github.com/user-attachments/assets/4bc9e1f5-c009-4479-9923-49e2ebe410c3" />
 
-###13. Также у вас могут быть проблемы с подключением по "Dirrect connection", тогда смените его на Session Pooler и сохраняете новую строку JDBC как в пункте 12
+### 13. Также у вас могут быть проблемы с подключением по "Dirrect connection" (будет как  на 1 картинке), тогда смените его например на Session Pooler и сохраняете новую строку JDBC как в пункте 12, но теперь (в случае Session Pooler) вы убираете из строки только: &password=[YOUR_PASSWORD]
+<img width="1054" height="602" alt="image" src="https://github.com/user-attachments/assets/1010940d-4447-4989-b03d-5c114c665b76" />
+
 <img width="1049" height="590" alt="image" src="https://github.com/user-attachments/assets/708bb15e-409d-4697-847b-a0749d207e9c" />
 
 ## 2. Настройка переменных окружения
