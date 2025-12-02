@@ -354,7 +354,7 @@ class SpringBootKotlinSttApplication {
 
 ### 8. **Примеры для разных окружений**
 
-# Локальная разработка (dev):
+#### Локальная разработка (dev):
 ```bash
 export DATABASE_URL=jdbc:postgresql://localhost:5432/students_themes_dev
 export POSTGRES_PASSWORD=dev_password
@@ -484,24 +484,391 @@ Process finished with exit code 1
 ```
 
 ### 4. Запуск ML Сервиса
+#### 1. **Быстрый старт (рекомендуемый способ)**
 
+##### Шаг 1: Перейдите в директорию с ML-сервисом
 ```bash
-# Создание виртуального окружения (рекомендуется)
+cd /путь/к/директории/с/main.py
+# Или если main.py и requirements.txt находятся в папке ml-service:
+cd ml-service
+```
+
+##### Шаг 2: Создайте и активируйте виртуальное окружение
+```bash
+# Создание виртуального окружения
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# venv\Scripts\activate  # Windows
 
-# Установка зависимостей
-pip install fastapi uvicorn sentence-transformers scikit-learn pandas numpy pydantic requests
+# Активация на Linux/Mac
+source venv/bin/activate
 
-# Запуск ML сервиса
+# Активация на Windows
+# CMD:
+venv\Scripts\activate
+# PowerShell:
+venv\Scripts\Activate.ps1
+```
+
+##### Шаг 3: Установите зависимости
+```bash
+pip install -r requirements.txt
+```
+
+##### Шаг 4: Запустите ML-сервис
+```bash
+python main.py
+```
+
+#### 2. **Детальные инструкции для разных ОС**
+
+##### Linux/Ubuntu/Debian
+```bash
+# Обновление pip и установка зависимостей
+cd /path/to/ml-service
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+
+# Запуск сервиса
 python main.py
 
-# Проверка работы в отдельном терминале
+# Альтернативный запуск с uvicorn напрямую
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+##### Windows
+```cmd
+:: Убедитесь, что Python установлен
+python --version
+
+:: Создание виртуального окружения
+cd C:\path\to\ml-service
+python -m venv venv
+venv\Scripts\activate
+
+:: Установка зависимостей
+pip install --upgrade pip
+pip install -r requirements.txt
+
+:: Запуск сервиса
+python main.py
+```
+
+##### macOS
+```bash
+# Установка Homebrew если нет
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Установка Python
+brew install python
+
+# Создание и активация окружения
+cd /path/to/ml-service
+python3 -m venv venv
+source venv/bin/activate
+
+# Установка зависимостей
+pip install --upgrade pip
+pip install -r requirements.txt
+
+# Запуск сервиса
+python main.py
+```
+
+#### 3. **Docker-способ (рекомендуется для продакшена)**
+
+##### Создайте Dockerfile в директории с ML-сервисом:
+```dockerfile
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Копируем файлы зависимостей
+COPY requirements.txt .
+
+# Устанавливаем зависимости
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Копируем исходный код
+COPY . .
+
+# Открываем порт
+EXPOSE 8000
+
+# Команда запуска
+CMD ["python", "main.py"]
+```
+
+##### Запуск в Docker:
+```bash
+# Сборка образа
+docker build -t ml-service .
+
+# Запуск контейнера
+docker run -p 8000:8000 --name ml-service-container ml-service
+
+# Или с монтированием текущей директории (для разработки)
+docker run -p 8000:8000 -v $(pwd):/app ml-service
+```
+
+#### 4. **Docker Compose для полной системы**
+
+Создайте `docker-compose.yml` в корне проекта:
+```yaml
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: students_themes_db
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.spring
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/students_themes_db
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-dev}
+      ML_SERVICE_URL: http://ml-service:8000
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - ml-service
+
+  ml-service:
+    build:
+      context: ./ml-service
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    # Для ускорения установки зависимостей можно использовать volume с кэшем
+    volumes:
+      - ~/.cache/pip:/root/.cache/pip
+
+volumes:
+  postgres_data:
+```
+
+#### 5. **Установка без виртуального окружения (не рекомендуется)**
+```bash
+# Только если уверены, что не будет конфликтов с другими проектами
+cd ml-service
+pip install --user -r requirements.txt
+python main.py
+```
+
+#### 6. **Проверка установки**
+
+Создайте тестовый скрипт `test_install.py`:
+```python
+import sys
+import pkg_resources
+
+required = [line.strip() for line in open('requirements.txt')]
+installed = {pkg.key for pkg in pkg_resources.working_set}
+missing = []
+
+for package in required:
+    if package and not any(package.startswith(f"{pkg}==") for pkg in installed):
+        missing.append(package)
+
+if missing:
+    print(f"Отсутствующие пакеты: {missing}")
+    sys.exit(1)
+else:
+    print("Все зависимости установлены успешно!")
+```
+
+Запустите проверку:
+```bash
+python test_install.py
+```
+
+#### 7. **Решение проблем с установкой**
+
+##### Проблема: Не устанавливается PyTorch
+```bash
+# Для Linux/Windows без GPU
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+
+# Для CUDA 11.8
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
+
+##### Проблема: Недостаточно памяти при установке
+```bash
+# Установка без зависимостей разработки
+pip install --no-deps -r requirements.txt
+
+# Или установка по очереди тяжелых пакетов
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+pip install sentence-transformers
+pip install -r requirements.txt --no-deps
+```
+
+##### Проблема: Конфликт версий Python
+```bash
+# Проверьте версию Python
+python --version  # Должна быть 3.8+
+
+# Если старая версия, установите новую
+# Linux:
+sudo apt update
+sudo apt install python3.10 python3.10-venv
+
+# Создайте окружение с конкретной версией
+python3.10 -m venv venv
+```
+
+#### 8. **Запуск с мониторингом и логированием**
+
+```bash
+# С виртуальным окружением
+cd ml-service
+source venv/bin/activate
+
+# Запуск с логированием в файл
+python main.py > ml_service.log 2>&1 &
+
+# Или с uvicorn для лучшего контроля
+uvicorn main:app \
+  --host 0.0.0.0 \
+  --port 8000 \
+  --workers 2 \
+  --log-level info \
+  --access-log
+
+# Проверка, что сервис работает
 curl http://localhost:8000/health
 ```
 
-### 5. Проверка интеграции
+#### 9. **Автоматизация запуска (скрипты)**
+
+##### `start_ml.sh` (Linux/Mac)
+```bash
+#!/bin/bash
+cd "$(dirname "$0")"
+
+# Проверяем, активировано ли виртуальное окружение
+if [ -z "$VIRTUAL_ENV" ]; then
+    if [ -d "venv" ]; then
+        source venv/bin/activate
+    else
+        echo "Создание виртуального окружения..."
+        python3 -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt
+    fi
+fi
+
+echo "Запуск ML-сервиса..."
+python main.py
+```
+
+##### `start_ml.bat` (Windows)
+```batch
+@echo off
+cd /d "%~dp0"
+
+if exist venv\Scripts\activate.bat (
+    call venv\Scripts\activate.bat
+) else (
+    echo Создание виртуального окружения...
+    python -m venv venv
+    call venv\Scripts\activate.bat
+    pip install -r requirements.txt
+)
+
+echo Запуск ML-сервиса...
+python main.py
+pause
+```
+
+#### 10. **Интеграция с IDE**
+
+##### VS Code
+1. Откройте папку `ml-service` в VS Code
+2. Выберите интерпретатор: Ctrl+Shift+P → "Python: Select Interpreter" → выберите `./venv/bin/python`
+3. Создайте конфигурацию запуска `.vscode/launch.json`:
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: ML Service",
+            "type": "python",
+            "request": "launch",
+            "program": "main.py",
+            "console": "integratedTerminal",
+            "justMyCode": false
+        }
+    ]
+}
+```
+
+##### PyCharm
+1. Откройте проект в PyCharm
+2. File → Settings → Project → Python Interpreter
+3. Нажмите ⚙ → Add → Virtual Environment → Создайте новое
+4. Установите зависимости из requirements.txt
+5. Запустите `main.py`
+
+#### 11. **Проверка работоспособности**
+
+После запуска проверьте:
+```bash
+# Проверка здоровья сервиса
+curl http://localhost:8000/health
+
+# Проверка главной страницы
+curl http://localhost:8000/
+
+# Или в браузере откройте:
+# http://localhost:8000/docs - документация Swagger
+# http://localhost:8000/redoc - альтернативная документация
+```
+
+#### 12. **Остановка сервиса**
+
+```bash
+# Найдите PID процесса
+ps aux | grep "python main.py"
+
+# Или
+lsof -i :8000
+
+# Остановите процесс
+kill <PID>
+
+# Для Windows
+taskkill /F /PID <PID>
+```
+
+#### Краткая инструкция (TL;DR):
+```bash
+# 1. Перейдите в директорию
+cd ml-service
+
+# 2. Создайте виртуальное окружение и установите зависимости
+python -m venv venv
+source venv/bin/activate  # или venv\Scripts\activate на Windows
+pip install -r requirements.txt
+
+# 3. Запустите сервис
+python main.py
+
+# 4. Проверьте в браузере: http://localhost:8000/docs
+```
+
+##### 5. Проверка интеграции
 
 ```bash
 # Проверка связи между сервисами
