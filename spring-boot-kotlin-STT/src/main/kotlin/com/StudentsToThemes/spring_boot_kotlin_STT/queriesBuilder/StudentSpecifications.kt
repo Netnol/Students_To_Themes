@@ -1,3 +1,5 @@
+package com.StudentsToThemes.spring_boot_kotlin_STT.queriesBuilder
+
 import com.StudentsToThemes.spring_boot_kotlin_STT.entity.StudentEntity
 import org.springframework.data.jpa.domain.Specification
 import jakarta.persistence.criteria.Predicate
