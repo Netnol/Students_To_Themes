@@ -1,4 +1,4 @@
-# Student-Themes Matching System - Полная документация
+<img width="1049" height="590" alt="image" src="https://github.com/user-attachments/assets/acff5717-0ad8-45bb-8ea6-da3472dba797" /># Student-Themes Matching System - Полная документация
 
 ## 📋 Содержание
 
@@ -128,7 +128,8 @@ gradle --version  # Должна быть 7.4 или выше
 12. Сохраняете эту строку
 <img width="1030" height="597" alt="image" src="https://github.com/user-attachments/assets/4bc9e1f5-c009-4479-9923-49e2ebe410c3" />
 
-
+13. Также у вас могут быть проблемы с подключением по "Dirrect connection", тогда смените его на Session Pooler и сохраняете новую строку JDBC как в пункте 12
+<img width="1049" height="590" alt="image" src="https://github.com/user-attachments/assets/708bb15e-409d-4697-847b-a0749d207e9c" />
 
 ### 2. Настройка переменных окружения
 
@@ -431,7 +432,7 @@ SPRING_PROFILES_ACTIVE=dev \
 - Для продакшена используйте сильные пароли и защищенные соединения (SSL)
 
 ### 3. Запуск Backend приложения
-
+Пример:
 ```bash
 # Клонирование репозитория (если нужно)
 git clone <repository-url>
@@ -446,6 +447,40 @@ java -jar build/libs/spring-boot-kotlin-STT-1.0.0.jar --spring.profiles.active=d
 
 # Проверка работы
 curl http://localhost:8080/actuator/health
+```
+
+Если у вас при запуске возникла примерно такая проблема, то смотрите пункт 13 в "1. Установка и настройка базы данных":
+```
+2025-12-02 22:55:12 - c.S.s.SpringBootKotlinSttApplicationKt - Starting SpringBootKotlinSttApplicationKt v1.0.0-dev using Java 21.0.4 with PID 44384 (C:\Spring\spring-boot-kotlin-STT\build\classes\kotlin\main started by Netnol in C:\Spring\spring-boot-kotlin-STT)
+2025-12-02 22:55:12 - c.S.s.SpringBootKotlinSttApplicationKt - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-12-02 22:55:12 - c.S.s.SpringBootKotlinSttApplicationKt - The following 1 profile is active: "dev"
+2025-12-02 22:55:13 - o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-02 22:55:13 - o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 45 ms. Found 3 JPA repository interfaces.
+2025-12-02 22:55:13 - o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-12-02 22:55:13 - o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-02 22:55:13 - o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-12-02 22:55:13 - o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-12-02 22:55:13 - o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 874 ms
+2025-12-02 22:55:14 - o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-02 22:55:14 - com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-12-02 22:55:15 - o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 08001
+2025-12-02 22:55:15 - o.h.e.jdbc.spi.SqlExceptionHelper - Ошибка при попытке подсоединения.
+2025-12-02 22:55:15 - o.h.e.j.e.i.JdbcEnvironmentInitiator - HHH000342: Could not obtain connection to query metadata
+org.hibernate.exception.JDBCConnectionException: unable to obtain isolated JDBC connection [Ошибка при попытке подсоединения.] [n/a]
+Caused by: org.postgresql.util.PSQLException: Ошибка при попытке подсоединения.
+Caused by: java.net.UnknownHostException: db.vkhuqmdbzoakdnxlibsx.supabase.co
+2025-12-02 22:55:15 - o.s.o.j.LocalContainerEntityManagerFactoryBean - Failed to initialize JPA EntityManagerFactory: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment] due to: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+2025-12-02 22:55:15 - o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment] due to: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+2025-12-02 22:55:15 - o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2025-12-02 22:55:15 - o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-02 22:55:15 - o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment] due to: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+Caused by: org.hibernate.service.spi.ServiceException: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment] due to: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+Caused by: org.hibernate.HibernateException: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+
+Process finished with exit code 1
 ```
 
 ### 4. Запуск ML Сервиса
