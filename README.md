@@ -96,6 +96,18 @@ gradle --version  # Должна быть 7.4 или выше
 1. Заходите на https://supabase.com/
 <img width="1477" height="1232" alt="image" src="https://github.com/user-attachments/assets/af26ea5d-acf6-4b2d-bc60-713a25e2a8f5" />
 
+2. Нажимайте кнопку "Start your project"
+<img width="495" height="656" alt="image" src="https://github.com/user-attachments/assets/cb986342-17c0-4dd6-8690-8bff3cbe43f4" />
+
+3. Нажимайте кнопку "Sign Up Now"
+<img width="453" height="555" alt="image" src="https://github.com/user-attachments/assets/3fdecdf0-14ca-48af-ac75-f27825ca7a5b" />
+
+4. Регистрируетесь
+
+5. После входа в аккаунт создете проект (если у вас нет проекта его сразу предлагают создать при входе)
+<img width="728" height="490" alt="image" src="https://github.com/user-attachments/assets/992a2ab3-a051-4e29-a47e-3917d4ef3167" />
+
+
 
 ### 2. Настройка переменных окружения
 
