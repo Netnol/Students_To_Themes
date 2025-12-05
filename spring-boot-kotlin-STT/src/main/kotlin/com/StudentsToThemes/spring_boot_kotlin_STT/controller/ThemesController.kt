@@ -110,6 +110,18 @@ class ThemesController(
     }
 
     /**
+     * Delete multiple themes by id.
+     * @param themeIds the ids of the themes to delete
+     */
+    @DeleteMapping
+    fun deleteThemes(
+        @RequestBody themeIds: List<UUID>
+    ) {
+        log.debug("DELETE /themes")
+        themesService.deleteThemes(themeIds)
+    }
+
+    /**
      * Add a student to a theme.
      * @param themeId the id of the theme to add the student to
      * @param studentId the id of the student to add
@@ -233,7 +245,7 @@ class ThemesController(
      * @param specializationName the name of the specialization to copy the students to
      * @return the updated theme
      */
-    @PostMapping("/{themeId}/specializations/{specializationName}/copy-from-theme")
+    @PutMapping("/{themeId}/specializations/{specializationName}/copy-from-theme")
     fun copyThemeStudentsToSpecialization(
         @PathVariable themeId: UUID,
         @PathVariable specializationName: String
@@ -389,7 +401,7 @@ class ThemesController(
      * @param themeId the id of the theme to copy the students from
      * @return the updated theme
      */
-    @PostMapping("/{themeId}/copy-to-specializations")
+    @PutMapping("/{themeId}/copy-to-specializations")
     fun copyThemeStudentsToSpecializations(
         @PathVariable themeId: UUID
     ): ThemeResponseDto {

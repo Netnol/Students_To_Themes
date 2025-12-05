@@ -28,9 +28,10 @@ data class CreateThemeRequest(
             .groupBy { it }
             .filter { it.value.size > 1 }
 
-        if (duplicates.isNotEmpty()) {
-            throw IllegalArgumentException("Duplicate specializations found: ${duplicates.keys.joinToString()}")
+        require(duplicates.isEmpty()) {
+            "Duplicate specializations found: ${duplicates.keys.joinToString()}"
         }
+
 
         specializations.forEach { specialization ->
             when {

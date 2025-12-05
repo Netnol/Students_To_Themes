@@ -1,7 +1,5 @@
 package com.StudentsToThemes.spring_boot_kotlin_STT.entity
 
-import com.StudentsToThemes.spring_boot_kotlin_STT.entity.StudentEntity
-import com.StudentsToThemes.spring_boot_kotlin_STT.entity.ThemeSpecializationStudent
 import jakarta.persistence.CascadeType
 import jakarta.persistence.CollectionTable
 import jakarta.persistence.Column
@@ -86,9 +84,10 @@ class ThemeEntity(
     fun addSpecialization(specialization: String) {
         validateSpecializationName(specialization)
 
-        if (specializations.any { it.equals(specialization, ignoreCase = true) }) {
-            throw IllegalArgumentException("Specialization '$specialization' already exists in theme")
+        require(!specializations.any { it.equals(specialization, ignoreCase = true) }) {
+            "Specialization '$specialization' already exists in theme"
         }
+
         specializations.add(specialization)
     }
 
@@ -114,9 +113,10 @@ class ThemeEntity(
             .filter { it.value.size > 1 }
             .keys
 
-        if (duplicates.isNotEmpty()) {
-            throw IllegalArgumentException("Duplicate specializations found: ${duplicates.joinToString()}")
+        require(duplicates.isEmpty()) {
+            "Duplicate specializations found: ${duplicates.joinToString()}"
         }
+
 
         // Validate every specialisation
         newSpecializations.forEach { validateSpecializationName(it) }

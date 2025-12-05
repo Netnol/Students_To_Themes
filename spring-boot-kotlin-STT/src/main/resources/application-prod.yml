@@ -10,6 +10,10 @@ spring:
       hibernate:
         show_sql: false  # ← В продакшене лучше отключить
         format_sql: false
+        jdbc:
+          batch_size: 20
+          order_inserts: true
+          order_updates: true
 
   # В PROD включаем Flyway для управления миграциями
   flyway:

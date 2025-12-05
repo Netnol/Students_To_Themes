@@ -1,7 +1,5 @@
 package com.StudentsToThemes.spring_boot_kotlin_STT.exception
 
-import com.StudentsToThemes.spring_boot_kotlin_STT.exception.StudentNotFoundException
-import com.StudentsToThemes.spring_boot_kotlin_STT.exception.ThemeNotFoundException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

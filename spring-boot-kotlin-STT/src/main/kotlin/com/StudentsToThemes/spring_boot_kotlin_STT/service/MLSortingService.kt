@@ -1,9 +1,7 @@
 package com.StudentsToThemes.spring_boot_kotlin_STT.service
 
-import com.StudentsToThemes.spring_boot_kotlin_STT.DTO.StudentWithPriorityDto
 import com.StudentsToThemes.spring_boot_kotlin_STT.entity.StudentEntity
 import com.StudentsToThemes.spring_boot_kotlin_STT.entity.ThemeEntity
-import com.StudentsToThemes.spring_boot_kotlin_STT.entity.ThemeSpecializationStudent
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -54,14 +52,12 @@ class MLSortingService {
      * Sort students by ML
      * @param students list of students
      * @param theme theme
-     * @param specializationStudents list of students in specialization
      * @param targetSpecialization target specialization
      * @return sorted list of students
      */
     fun sortSpecializationStudents(
         students: List<StudentEntity>,
         theme: ThemeEntity,
-        specializationStudents: List<ThemeSpecializationStudent>,
         targetSpecialization: String
     ): List<StudentEntity> {
         log.info("ML sorting for specialization: {} in theme: {}", targetSpecialization, theme.id)
@@ -123,9 +119,6 @@ class MLSortingService {
 
     /**
      * Check if ML service is available
-     * @param students list of students
-     * @param theme theme
-     * @param targetSpecialization target specialization
      * @return true if service is available, false otherwise
      */
     fun isServiceAvailable(): Boolean {

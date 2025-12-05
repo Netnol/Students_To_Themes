@@ -29,7 +29,7 @@ class StudentSpecifications {
                 name?.takeIf { it.isNotBlank() }?.let {
                     predicates.add(
                         criteriaBuilder.like(
-                            criteriaBuilder.lower(root.get<String>("name")),
+                            criteriaBuilder.lower(root["name"]),
                             "%${it.lowercase()}%"
                         )
                     )
@@ -38,7 +38,7 @@ class StudentSpecifications {
                 hardSkill?.takeIf { it.isNotBlank() }?.let {
                     predicates.add(
                         criteriaBuilder.like(
-                            criteriaBuilder.lower(root.get<String>("hardSkill")),
+                            criteriaBuilder.lower(root["hardSkill"]),
                             "%${it.lowercase()}%"
                         )
                     )
@@ -47,7 +47,7 @@ class StudentSpecifications {
                 background?.takeIf { it.isNotBlank() }?.let {
                     predicates.add(
                         criteriaBuilder.like(
-                            criteriaBuilder.lower(root.get<String>("background")),
+                            criteriaBuilder.lower(root["background"]),
                             "%${it.lowercase()}%"
                         )
                     )
@@ -56,7 +56,7 @@ class StudentSpecifications {
                 interests?.takeIf { it.isNotBlank() }?.let {
                     predicates.add(
                         criteriaBuilder.like(
-                            criteriaBuilder.lower(root.get<String>("interests")),
+                            criteriaBuilder.lower(root["interests"]),
                             "%${it.lowercase()}%"
                         )
                     )
@@ -65,7 +65,7 @@ class StudentSpecifications {
                 timeInWeek?.takeIf { it.isNotBlank() }?.let {
                     predicates.add(
                         criteriaBuilder.like(
-                            criteriaBuilder.lower(root.get<String>("timeInWeek")),
+                            criteriaBuilder.lower(root["timeInWeek"]),
                             "%${it.lowercase()}%"
                         )
                     )

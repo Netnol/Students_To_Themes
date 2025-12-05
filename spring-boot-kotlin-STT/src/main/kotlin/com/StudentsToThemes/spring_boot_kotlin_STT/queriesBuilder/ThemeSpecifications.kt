@@ -26,7 +26,7 @@ class ThemeSpecifications {
                 name?.takeIf { it.isNotBlank() }?.let {
                     predicates.add(
                         criteriaBuilder.like(
-                            criteriaBuilder.lower(root.get<String>("name")),
+                            criteriaBuilder.lower(root["name"]),
                             "%${it.lowercase()}%"
                         )
                     )
@@ -35,7 +35,7 @@ class ThemeSpecifications {
                 description?.takeIf { it.isNotBlank() }?.let {
                     predicates.add(
                         criteriaBuilder.like(
-                            criteriaBuilder.lower(root.get<String>("description")),
+                            criteriaBuilder.lower(root["description"]),
                             "%${it.lowercase()}%"
                         )
                     )
@@ -44,7 +44,7 @@ class ThemeSpecifications {
                 author?.takeIf { it.isNotBlank() }?.let {
                     predicates.add(
                         criteriaBuilder.like(
-                            criteriaBuilder.lower(root.get<String>("author")),
+                            criteriaBuilder.lower(root["author"]),
                             "%${it.lowercase()}%"
                         )
                     )

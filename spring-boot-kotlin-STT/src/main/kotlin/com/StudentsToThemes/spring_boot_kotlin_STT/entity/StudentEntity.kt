@@ -1,6 +1,5 @@
 package com.StudentsToThemes.spring_boot_kotlin_STT.entity
 
-import com.StudentsToThemes.spring_boot_kotlin_STT.entity.ThemeSpecializationStudent
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

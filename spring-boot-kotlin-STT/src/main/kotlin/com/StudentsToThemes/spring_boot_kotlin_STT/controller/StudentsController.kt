@@ -105,7 +105,7 @@ class StudentsController(
 
     /**
      * Add new students.
-     * @param createRequest list of the requests containing the student details
+     * @param createRequests list of the requests containing the student details
      * @return list of the created students
      */
     @PostMapping("/by-ids")
@@ -150,7 +150,7 @@ class StudentsController(
      * Change the activity of students.
      * @param request the request containing the ids of the students and the new activity status
      */
-    @PutMapping("/{id}/change-activities")
+    @PutMapping("/change-activities")
     fun changeStudentActivities(
         @RequestBody request: ChangeActivitiesRequest
     ) {
