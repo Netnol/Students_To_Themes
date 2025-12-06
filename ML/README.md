@@ -18,6 +18,7 @@ ML модель для автоматического подбора студе�
 Скопируйте репозиторий
 
 `git clone https://github.com/Netnol/Students_To_Themes.git`
+
 Перейдите в папку с ML моделью
 
 `cd Students_To_Themes/ML`
@@ -113,6 +114,7 @@ https://github.com/Netnol/Students_To_Themes/blob/e65ebda135afcee0abeb72bd6e52a8
 - После сбора 100-200 примеров - добавим простое обучение
 
 training.py
+
 
 
 
