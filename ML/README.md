@@ -57,7 +57,7 @@ https://github.com/Netnol/Students_To_Themes/blob/4ecdebb928e9294e59a5448ce10a16
 ### 3.2 Добавить новую специализацию
 В файле main.py найдите 
 
-https://github.com/Netnol/Students_To_Themes/blob/a3a8927ba7d7272ba8997e05f2da659e194e2ade/ML/main.py#L46
+https://github.com/Netnol/Students_To_Themes/blob/e65ebda135afcee0abeb72bd6e52a84ca5281160/ML/main.py#L46C7-L49C117
 
 Добавьте новую запись, к примеру нейробиология:
 
@@ -68,6 +68,7 @@ https://github.com/Netnol/Students_To_Themes/blob/a3a8927ba7d7272ba8997e05f2da65
     'brain research'
 ]
 `
+
 И добавьте связи между специализациями:
 
 
@@ -96,58 +97,7 @@ https://github.com/Netnol/Students_To_Themes/blob/a3a8927ba7d7272ba8997e05f2da65
 Стало (например, больше внимания семантике):
 
 `weights = {'semantic': 0.5, 'specialization': 0.25, 'skills': 0.15, 'hours': 0.1}`
-### 3.5 Создать кастомную модель
 
-`from main import CSVStudentTopicMatcher
-
-class CustomStudentMatcher(CSVStudentTopicMatcher):
-    """Кастомная модель с дополнительными функциями"""
-    
-    def __init__(self):
-        # Используем более легкую модель
-        super().__init__(model_name='sentence-transformers/all-MiniLM-L6-v2')
-        
-        # Добавляем новые специализации
-        self.specialization_mapping['Геоинформатика'] = [
-            'Геоинформатика',
-            'геоинформатика',
-            'GIS',
-            'geoinformatics'
-        ]
-        
-        # Добавляем новые навыки
-        self.skill_keywords['gis'] = [
-            'arcgis',
-            'qgis',
-            'геоинформационные системы',
-            'картография'
-        ]
-    
-    def calculate_comprehensive_score(self, semantic_similarity, spec_match, 
-                                    skill_match, hours_score, weights=None):
-        """Переопределяем веса оценки"""
-        custom_weights = {
-            'semantic': 0.45,      # Больше внимания смыслу
-            'specialization': 0.3,  # Стандартно
-            'skills': 0.15,         # Меньше внимания навыкам
-            'hours': 0.1           # Стандартно
-        }
-        return super().calculate_comprehensive_score(
-            semantic_similarity, spec_match, skill_match, hours_score, custom_weights
-        )
-    
-    def get_detailed_scores(self, students_data, theme_data, target_specialization):
-        """Новый метод: получить детальные оценки"""
-        # Используем существующую логику, но возвращаем больше информации
-        students_df = self.preprocess_student_data(students_data)
-        processed_theme = self.preprocess_theme_data(theme_data)
-        
-        # ... ваша логика ...
-        return detailed_results`
-
-Использование
-
-custom_matcher = CustomStudentMatcher()
 
 ## 4. Обучение
 
@@ -163,5 +113,6 @@ custom_matcher = CustomStudentMatcher()
 - После сбора 100-200 примеров - добавим простое обучение
 
 training.py
+
 
 
