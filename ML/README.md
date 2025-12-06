@@ -57,8 +57,9 @@ https://github.com/Netnol/Students_To_Themes/blob/4ecdebb928e9294e59a5448ce10a16
 ### 3.2 Добавить новую специализацию
 В файле main.py найдите 
 
+https://github.com/Netnol/Students_To_Themes/blob/a3a8927ba7d7272ba8997e05f2da659e194e2ade/ML/main.py#L46
 
-Добавьте новую запись:
+Добавьте новую запись, к примеру нейробиология:
 
 `self.specialization_mapping['Нейробиология'] = [
     'Нейробиология',
@@ -67,9 +68,9 @@ https://github.com/Netnol/Students_To_Themes/blob/4ecdebb928e9294e59a5448ce10a16
     'brain research'
 ]
 `
-И добавьте связи между специализациями (строка ~98):
+И добавьте связи между специализациями:
 
-`related_specs['Нейробиология'] = ['Machine Learning', 'Data Science']`
+
 ### 3.3 Добавить новый навык
 В файле main.py найдите словарь skill_keywords (строки 58-94)
 
@@ -162,4 +163,5 @@ custom_matcher = CustomStudentMatcher()
 - После сбора 100-200 примеров - добавим простое обучение
 
 training.py
+
 
