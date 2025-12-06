@@ -57,7 +57,7 @@ https://github.com/Netnol/Students_To_Themes/blob/4ecdebb928e9294e59a5448ce10a16
 ### 3.2 Добавить новую специализацию
 В файле main.py найдите 
 
-https://github.com/Netnol/Students_To_Themes/blob/e65ebda135afcee0abeb72bd6e52a84ca5281160/ML/main.py#L46C7-L49C117
+https://github.com/Netnol/Students_To_Themes/blob/e65ebda135afcee0abeb72bd6e52a84ca5281160/ML/main.py#L46C7
 
 Добавьте новую запись, к примеру нейробиология:
 
@@ -113,6 +113,7 @@ https://github.com/Netnol/Students_To_Themes/blob/e65ebda135afcee0abeb72bd6e52a8
 - После сбора 100-200 примеров - добавим простое обучение
 
 training.py
+
 
 
 
