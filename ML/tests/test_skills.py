@@ -2,7 +2,7 @@ import sys
 
 sys.path.append('..')
 
-from main import CSVStudentTopicMatcher
+from ..main import CSVStudentTopicMatcher
 
 
 def test_skill_extraction():
