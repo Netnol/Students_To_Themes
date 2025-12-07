@@ -13,7 +13,7 @@
   - [API Документация](./docs/api.md)
   - [Документация по машинному обучению](./ML/README.md)
   - [База данных](./docs/database.md)
-  - [Структура проекта ](./docs/structure.md)
+  - [Структура проекта](./docs/structure.md)
   - [Инструкции по развертыванию](./docs/deployment.md)
   - [Примеры](./docs/examples.md)
   - [Устранение неисправностей и поддержка](./docs/fix_troubles.md)
@@ -76,15 +76,15 @@
 
 
 
+- [Быстрый старт](./docs/quickstart.md)
 - [Конфигурация](./docs/configuration.md)
 - [API Документация](./docs/api.md)
-- [Документация по машинному обучению](./docs/ml-service.md)
+- [Документация по машинному обучению](./ML/README.md)
 - [База данных](./docs/database.md)
-- [Разработка	](./docs/development.md)
+- [Структура проекта](./docs/structure.md)
 - [Инструкции по развертыванию](./docs/deployment.md)
 - [Примеры](./docs/examples.md)
-- [Устранение неисправностей](./docs/troubleshooting.md)
-- [Контакты и поддержка](./docs/support.md)
+- [Устранение неисправностей и поддержка](./docs/fix_troubles.md)
 
 
 ### <a id="быстрая-проверка">⚡ Быстрая проверка</a>
