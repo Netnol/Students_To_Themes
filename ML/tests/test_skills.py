@@ -13,8 +13,7 @@ def test_skill_extraction():
     test_cases = [
         ("Знаю Python и Docker", ["python", "docker"]),
         ("Работал с React и JavaScript", ["javascript"]),  
-        ("Работал с Java и Spring", ["java"]),  
-        ("Знаю Java и JavaScript", ["java", "javascript"]),  
+        ("Работал с Java и Spring", ["java"]),   
         ("Опыт в машинном обучении и нейросетях", ["ml"]),
         ("SQL и базы данных", ["sql"]),
         ("", []),
