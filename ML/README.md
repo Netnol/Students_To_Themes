@@ -26,10 +26,35 @@
 
 `pip install -r requirements.txt`
 
+## 2. Форматы данных
 
-## 2. Как менять модель
+###  Студенты (StudentRequest)
 
-### 2.1 Сменить модель эмбеддингов
+**Поля:**
+| Поле | Тип | Описание | Пример |
+|------|-----|----------|--------|
+| `id` | string | Уникальный идентификатор | `"student_001"` |
+| `name` | string | Имя студента | `"Иван Иванов"` |
+| `hardSkill` | string | Основная специализация | `"Machine Learning"` |
+| `background` | string | Опыт и навыки (текст) | `"Python, TensorFlow, SQL"` |
+| `interests` | string | Научные интересы | `"нейросети, компьютерное зрение"` |
+| `timeInWeek` | string | Доступное время в неделю | `"15"` |
+
+**Полный пример JSON:**
+json
+`{
+  "id": "student_001",
+  "name": "Иван Иванов",
+  "hardSkill": "Machine Learning",
+  "background": "Работал с Python 3 года, опыт в TensorFlow и PyTorch. Знаю SQL, Docker, Git.",
+  "interests": "Глубокое обучение, компьютерное зрение, генеративные модели",
+  "timeInWeek": "20"
+}`
+
+
+## 3. Как менять модель
+
+### 3.1 Сменить модель эмбеддингов
 
 В файле main.py измените 
 
@@ -44,7 +69,7 @@ https://github.com/Netnol/Students_To_Themes/blob/4ecdebb928e9294e59a5448ce10a16
 `def __init__(self, model_name='sentence-transformers/paraphrase-multilingual-mpnet-base-v2'):`
 
 
-### 2.2 Добавить новую специализацию
+### 3.2 Добавить новую специализацию
 В файле main.py найдите 
 
 https://github.com/Netnol/Students_To_Themes/blob/941d96b820402e4033d994bb1bc0eace472d0c55/ML/main.py#L46-L50
@@ -65,7 +90,7 @@ https://github.com/Netnol/Students_To_Themes/blob/baa632df5ce2437f0efd8c21ceff11
 
 `['Нейробиология'] = ['Machine Learning', 'Data Science']`
 
-### 2.3 Добавить новый навык
+### 3.3 Добавить новый навык
 В файле main.py найдите словарь skill_keywords 
 
 https://github.com/Netnol/Students_To_Themes/blob/3c510ac5cc4a6d2e44d5afec4df5afbd7d4854f6/ML/main.py#L118-L121
@@ -80,7 +105,7 @@ https://github.com/Netnol/Students_To_Themes/blob/3c510ac5cc4a6d2e44d5afec4df5af
     'ДНК',
     'DNA'
 ]`
-### 2.4 Изменить веса оценки
+### 3.4 Изменить веса оценки
 В файле main.py найдите метод 
 
 https://github.com/Netnol/Students_To_Themes/blob/7e9a2d17ecc6b9b73a86179a801f03f2bfb7ad1d/ML/main.py#L218-L220
@@ -91,7 +116,7 @@ https://github.com/Netnol/Students_To_Themes/blob/7e9a2d17ecc6b9b73a86179a801f03
 
 `weights = {'semantic': 0.5, 'specialization': 0.25, 'skills': 0.15, 'hours': 0.1}`
 
-## 3. Тестирование
+## 4. Тестирование
 
 После того, как вы обновили main.py, вы можете протестировать, к примеру, нормализацию или тест скиллов
 
@@ -106,7 +131,6 @@ https://github.com/Netnol/Students_To_Themes/blob/7e9a2d17ecc6b9b73a86179a801f03
 `python tests/test_normalization.py`
 
 `python tests/test_skills.py`
-
 
 
 
