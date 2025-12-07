@@ -104,6 +104,7 @@ https://github.com/Netnol/Students_To_Themes/blob/7e9a2d17ecc6b9b73a86179a801f03
 Или запустите конкретный тест
 
 `python tests/test_normalization.py`
+
 `python tests/test_skills.py`
 
 ## 4. Обучение
@@ -119,6 +120,7 @@ https://github.com/Netnol/Students_To_Themes/blob/7e9a2d17ecc6b9b73a86179a801f03
 - Отмечайте, какие подборы были хорошими/плохими
 
 - После сбора 100-200 примеров - добавим простое обучение
+
 
 
 
