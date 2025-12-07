@@ -83,7 +83,7 @@ https://github.com/Netnol/Students_To_Themes/blob/3c510ac5cc4a6d2e44d5afec4df5af
 ### 2.4 Изменить веса оценки
 В файле main.py найдите метод 
 
-
+https://github.com/Netnol/Students_To_Themes/blob/7e9a2d17ecc6b9b73a86179a801f03f2bfb7ad1d/ML/main.py#L218-L220
 
 Измените веса
 
@@ -105,6 +105,7 @@ https://github.com/Netnol/Students_To_Themes/blob/3c510ac5cc4a6d2e44d5afec4df5af
 - Отмечайте, какие подборы были хорошими/плохими
 
 - После сбора 100-200 примеров - добавим простое обучение
+
 
 
 
