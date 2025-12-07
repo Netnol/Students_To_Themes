@@ -76,10 +76,6 @@ sudo tail -f /var/lib/postgresql/*/log/postgresql-*.log
 
 echo "=== System Health Check ==="
 
-# Backend
-echo "Backend:"
-curl -s http://localhost:8080/api/actuator/health | jq .
-
 # Database
 echo "Database:"
 psql -h localhost -U postgres -d student_themes -c "SELECT version();" 2>/dev/null || echo "Database connection failed"
@@ -99,7 +95,6 @@ echo "=== Check Complete ==="
 ```bash
 # Однострочник для проверки всех компонентов
 curl -s http://localhost:8080/api/themes/ml-health && \
-curl -s http://localhost:8080/api/actuator/health && \
 curl -s http://localhost:8000/health && \
 echo "All systems operational"
 ```
@@ -121,9 +116,9 @@ curl -X DELETE "http://localhost:8080/api/themes/all"
 ### <a id="полезные-ссылки">Полезные ссылки</a>
 
 - **Документация API**: 
-- **ML Service Docs**: http://localhost:8000/docs
+- **ML Service Docs**:
 - **База данных**: 
-- **Мониторинг**: http://localhost:8080/api/actuator
+- **Мониторинг**:
 
 ---
 
