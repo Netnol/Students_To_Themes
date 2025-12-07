@@ -68,17 +68,16 @@
 
 Пример описания:
 
-`{
-  "id": "theme_ml_001",`
+{
+  "id": "theme_ml_001",
   
-  `"name": "Классификация изображений животных",`
+  "name": "Классификация изображений животных",
   
- ` "description": "Разработка CNN модели для распознавания 50 видов животных. Используется датасет с 10k изображений. Требуется: Python, TensorFlow/PyTorch, знание CNN. Результат: точность >90%.",`
+  "description": "Разработка CNN модели для распознавания 50 видов животных. Используется датасет с 10k изображений. Требуется: Python, TensorFlow/PyTorch, знание CNN. Результат: точность >90%.",
   
-  `"author": "Кафедра искусственного интеллекта",`
-  
-  `"specializations": ["Machine Learning", "Computer Vision"]
-}`
+  "author": "Кафедра искусственного интеллекта",
+  "specializations": ["Machine Learning", "Computer Vision"]
+}
 
 ## 3. Как менять модель
 
@@ -159,6 +158,7 @@ https://github.com/Netnol/Students_To_Themes/blob/7e9a2d17ecc6b9b73a86179a801f03
 `python tests/test_normalization.py`
 
 `python tests/test_skills.py`
+
 
 
 
