@@ -52,12 +52,12 @@ Supabase - это платформа для разработки на основ
    ![Supabase homepage](https://github.com/user-attachments/assets/af26ea5d-acf6-4b2d-bc60-713a25e2a8f5)
 
 2. Нажмите кнопку "Start your project"
-   ![Start project button](https://github.com/user-attachments/assets/cb986342-17c0-4dd6-8690-8bff3cbe43f4)
 
 3. Нажмите "Sign Up Now" для регистрации
-   ![Sign up button](https://github.com/user-attachments/assets/3fdecdf0-14ca-48af-ac75-f27825ca7a5b)
+   ![Sign up button](https://github.com/user-attachments/assets/cb986342-17c0-4dd6-8690-8bff3cbe43f4)
 
 4. Зарегистрируйтесь в системе
+   ![Registration](https://github.com/user-attachments/assets/3fdecdf0-14ca-48af-ac75-f27825ca7a5b)
 
 5. После входа создайте организацию (если у вас нет проекта, он будет предложен при входе)
    ![Create organization](https://github.com/user-attachments/assets/0b3b7a1b-817a-40da-bf42-92093fe109e2)
