@@ -62,11 +62,14 @@ https://github.com/Netnol/Students_To_Themes/blob/941d96b820402e4033d994bb1bc0ea
 
 И добавьте связи между специализациями:
 
+https://github.com/Netnol/Students_To_Themes/blob/baa632df5ce2437f0efd8c21ceff11abe426ef5c/ML/main.py#L188
 
 ### 2.3 Добавить новый навык
-В файле main.py найдите словарь skill_keywords (строки 58-94)
+В файле main.py найдите словарь skill_keywords 
 
-Добавьте новую запись:
+
+
+Добавьте новую запись (в нашем случае к примеру выше):
 
 `skill_keywords['bioinformatics'] = [
     'биоинформатика',
@@ -102,6 +105,7 @@ https://github.com/Netnol/Students_To_Themes/blob/941d96b820402e4033d994bb1bc0ea
 - Отмечайте, какие подборы были хорошими/плохими
 
 - После сбора 100-200 примеров - добавим простое обучение
+
 
 
 
