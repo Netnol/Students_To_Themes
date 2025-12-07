@@ -48,7 +48,7 @@ https://github.com/Netnol/Students_To_Themes/blob/4ecdebb928e9294e59a5448ce10a16
 ### 2.2 Добавить новую специализацию
 В файле main.py найдите 
 
-https://github.com/Netnol/Students_To_Themes/blob/941d96b820402e4033d994bb1bc0eace472d0c55/ML/main.py#L46
+https://github.com/Netnol/Students_To_Themes/blob/941d96b820402e4033d994bb1bc0eace472d0c55/ML/main.py#L46-L50
 
 Добавьте новую запись, к примеру нейробиология:
 
@@ -62,7 +62,7 @@ https://github.com/Netnol/Students_To_Themes/blob/941d96b820402e4033d994bb1bc0ea
 
 И добавьте связи между специализациями:
 
-https://github.com/Netnol/Students_To_Themes/blob/baa632df5ce2437f0efd8c21ceff11abe426ef5c/ML/main.py#L188
+https://github.com/Netnol/Students_To_Themes/blob/baa632df5ce2437f0efd8c21ceff11abe426ef5c/ML/main.py#L188-L191
 
 ### 2.3 Добавить новый навык
 В файле main.py найдите словарь skill_keywords 
@@ -105,6 +105,7 @@ https://github.com/Netnol/Students_To_Themes/blob/3c510ac5cc4a6d2e44d5afec4df5af
 - Отмечайте, какие подборы были хорошими/плохими
 
 - После сбора 100-200 примеров - добавим простое обучение
+
 
 
 
