@@ -1,8 +1,9 @@
 import sys
+import os
 
-sys.path.append('..')
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from ..main import CSVStudentTopicMatcher
+from main import CSVStudentTopicMatcher 
 
 
 def test_skill_extraction():
