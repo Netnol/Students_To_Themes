@@ -67,7 +67,7 @@ https://github.com/Netnol/Students_To_Themes/blob/baa632df5ce2437f0efd8c21ceff11
 ### 2.3 Добавить новый навык
 В файле main.py найдите словарь skill_keywords 
 
-https://github.com/Netnol/Students_To_Themes/blob/3c510ac5cc4a6d2e44d5afec4df5afbd7d4854f6/ML/main.py#L118C1-L121C5
+https://github.com/Netnol/Students_To_Themes/blob/3c510ac5cc4a6d2e44d5afec4df5afbd7d4854f6/ML/main.py#L118-L121
 
 Добавьте новую запись (в нашем случае к примеру выше):
 
@@ -105,6 +105,7 @@ https://github.com/Netnol/Students_To_Themes/blob/3c510ac5cc4a6d2e44d5afec4df5af
 - Отмечайте, какие подборы были хорошими/плохими
 
 - После сбора 100-200 примеров - добавим простое обучение
+
 
 
 
