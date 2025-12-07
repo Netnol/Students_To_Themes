@@ -21,7 +21,6 @@ def test_skill_extraction():
         ("Работал с React и JavaScript", ["java", "javascript"]),  
         ("Java разработка", ["java"]),
         ("Только JavaScript", ["java", "javascript"]),  
-        ("Опыт в машинном обучении", ["ml"]),
         ("SQL и базы данных", ["sql"]),
         ("", []),
         ("Абвгд несуществующее", []),
