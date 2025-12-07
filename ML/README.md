@@ -52,7 +52,7 @@ https://github.com/Netnol/Students_To_Themes/blob/941d96b820402e4033d994bb1bc0ea
 
 Добавьте новую запись, к примеру нейробиология:
 
-`self.specialization_mapping['Нейробиология'] = [
+`['Нейробиология'] = [
     'Нейробиология',
     'нейробиология', 
     'neuroscience',
@@ -64,6 +64,8 @@ https://github.com/Netnol/Students_To_Themes/blob/941d96b820402e4033d994bb1bc0ea
 
 https://github.com/Netnol/Students_To_Themes/blob/baa632df5ce2437f0efd8c21ceff11abe426ef5c/ML/main.py#L188-L191
 
+['Нейробиология'] = ['Machine Learning', 'Data Science']
+
 ### 2.3 Добавить новый навык
 В файле main.py найдите словарь skill_keywords 
 
@@ -71,7 +73,7 @@ https://github.com/Netnol/Students_To_Themes/blob/3c510ac5cc4a6d2e44d5afec4df5af
 
 Добавьте новую запись (в нашем случае к примеру выше):
 
-`skill_keywords['bioinformatics'] = [
+`['bioinformatics'] = [
     'биоинформатика',
     'bioinformatics',
     'геномика',
@@ -80,15 +82,13 @@ https://github.com/Netnol/Students_To_Themes/blob/3c510ac5cc4a6d2e44d5afec4df5af
     'DNA'
 ]`
 ### 2.4 Изменить веса оценки
-В файле main.py найдите метод calculate_comprehensive_score (строка 129)
+В файле main.py найдите метод 
 
-Измените веса:
+https://github.com/Netnol/Students_To_Themes/blob/3c510ac5cc4a6d2e44d5afec4df5afbd7d4854f6/ML/main.py#220
 
-Было:
+Измените веса
 
-`weights = {'semantic': 0.4, 'specialization': 0.3, 'skills': 0.2, 'hours': 0.1}`
-
-Стало (например, больше внимания семантике):
+Можно уделить больше внимания семантике, например:
 
 `weights = {'semantic': 0.5, 'specialization': 0.25, 'skills': 0.15, 'hours': 0.1}`
 
@@ -96,6 +96,7 @@ https://github.com/Netnol/Students_To_Themes/blob/3c510ac5cc4a6d2e44d5afec4df5af
 ## 3. Обучение
 
 Рекомендация:
+
 - Если вам нужно обучение, начните с сбора данных:
 
 - Запустите текущую систему
@@ -105,6 +106,7 @@ https://github.com/Netnol/Students_To_Themes/blob/3c510ac5cc4a6d2e44d5afec4df5af
 - Отмечайте, какие подборы были хорошими/плохими
 
 - После сбора 100-200 примеров - добавим простое обучение
+
 
 
 
