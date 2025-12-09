@@ -258,7 +258,7 @@ services:
       - postgres
 
   ml-service:
-    build: ./ml-service
+    build: ./ML
     ports:
       - "8000:8000"
 
@@ -305,7 +305,7 @@ curl http://localhost:8080/themes/ml-health
 
 ```bash
 # 1. Перейдите в директорию
-cd ml-service
+cd ML
 
 # 2. Создайте виртуальное окружение и установите зависимости
 python -m venv venv
