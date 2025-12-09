@@ -293,8 +293,8 @@ cd spring-boot-kotlin-STT
 ./gradlew clean build
 java -jar build/libs/spring-boot-kotlin-STT-1.0.0.jar --spring.profiles.active=dev
 
-# Проверка работы
-curl http://localhost:8080/actuator/health
+# Проверка связи с ML модулем
+curl http://localhost:8080/themes/ml-health
 ```
 
 <a id="запуск-ml-сервиса"></a>
