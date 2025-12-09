@@ -26,13 +26,13 @@
 
 ```bash
 # Проверка установки Java
-java -version  # Должна быть 17 или выше
+java -version  # Должна быть 21
 
 # Проверка PostgreSQL
 psql --version  # Должна быть 12 или выше
 
 # Проверка Python
-python --version  # Должна быть 3.8 или выше
+python --version  # Должна быть 3.11 или выше
 
 # Проверка Gradle
 gradle --version  # Должна быть 7.4 или выше
