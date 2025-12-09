@@ -315,7 +315,7 @@ pip install -r requirements.txt
 # 3. Запустите сервис
 python main.py
 
-# 4. Проверьте в браузере: http://localhost:8000/docs
+# 4. Проверьте в браузере: http://localhost:8000/health
 ```
 
 <a id="детальные-инструкции-для-разных-ос"></a>
