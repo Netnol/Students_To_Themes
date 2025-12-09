@@ -34,7 +34,7 @@
 ## <a id = "технологии">🛠 Технологии</a>
 
 ### Backend (Spring Boot Kotlin)
-- **Java 17+** с модульностью
+- **Java 21** с модульностью
 - **Spring Boot 3.2.x** (Web, Data JPA, Validation, Actuator)
 - **Kotlin 1.9+** с корутинами и null-safety
 - **PostgreSQL 14+** с расширением UUID
@@ -44,7 +44,7 @@
 - **Spring Data JPA** - репозитории и спецификации
 
 ### ML Сервис (Python FastAPI)
-- **Python 3.9+** с type hints
+- **Python 3.11+** с type hints
 - **FastAPI 0.104+** - современный async фреймворк
 - **SentenceTransformers** - multilingual текстовые эмбеддинги
 - **scikit-learn 1.3+** - cosine similarity и метрики
