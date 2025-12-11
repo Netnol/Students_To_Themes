@@ -1,0 +1,202 @@
+id;Специализация;Опыт в проектах;Интересы;Сколько времени в неделю(ч)
+1;Machine Learning;Я ни с чем не работал никогда;Машинное обучение, анализ данных;20
+2;Web;Делал сайты на HTML+CSS+JS;Онлайн-магазины;15
+3;Data Engineering;Работал в 2 проектах с БД;Алгоритмы и структуры данных;20
+4;Android;Писал pet-проект на Kotlin;Мобильные приложения;10
+5;Backend;Разрабатывал Django API;Чат-боты, веб-сервисы;20
+6;Frontend;Верстал интерфейсы в Figma;Веб-сайты, UI-анимации;15
+7;Machine Learning;Участвовал в ML-хакатоне;Компьютерное зрение;10
+8;UI/UX;Проектировал лендинг;Креативные индустрии;15
+9;Data Analytics;Работал с SQL;Продуктовая аналитика;10
+10;DevOps;Настраивал Docker окружение;Cloud Native;20
+11;NLP;Создал чат-бота;Компьютерная лингвистика;25
+12;Data Science;Анализировал датасеты;Физика, ML;5
+13;GameDev;Разрабатывал прототип игры;VR;30
+14;Backend;Писал FastAPI сервис;Микросервисы;15
+15;Data Science;Строил модель прогноза;Обработка текста;20
+16;Frontend;Делал web-интерфейс;PWA;10
+17;Android;Создал фитнес-трекер;Мобильная разработка;15
+18;DevOps;Настраивал CI/CD;Cloud native;25
+19;QA;Тестировал приложение;Автоматизация тестирования;10
+20;Machine Learning;Разрабатывал распознавание лиц;CV, Vision;20
+21;Data Engineering;Строил ETL пайплайны;Big Data;15
+22;UI/UX;Создавал интерфейсы;Веб-приложения;15
+23;GameDev;Делал 3D модели;VR;30
+24;Биоинформатика;Анализировал геномные данные;Геномика;20
+25;Backend;Разрабатывал API;Распределённые системы;25
+26;Data Science;Создавал рекомендации;ML-модели;20
+27;Frontend;Работал над лендингами;Web-приложения;15
+28;Android;Разрабатывал доставку еды;UX, mobile;10
+29;DevOps;Настраивал мониторинг;Cloud;20
+30;QA;Автоматизировал тесты;QA процессы;15
+31;Machine Learning;Делал чатбота;NLP;25
+32;Data Engineering;Оптимизировал SQL запросы;Data Pipelines;20
+33;UI/UX;Проводил UX-исследования;Финтех интерфейсы;10
+34;GameDev;Работал с UE5;Компьютерная графика;25
+35;Cybersecurity;Настраивал сетевые политики;Информационная безопасность;20
+36;Product Analytics;Делал исследование метрик;Продуктовые исследования;15
+37;Robotics;Собирал робота на Arduino;Мобильная робототехника;20
+38;Machine Learning;Писал классификатор;Vision;15
+39;Web;Собирал SPA на React;Frontend разработка;10
+40;Data Engineering;Поддерживал хранилище данных;ETL;20
+41;Backend;Работал с Flask;API, базы данных;15
+42;Android;Делал приложение для детей;Мультимедиа;10
+43;DevOps;Docker + Ansible;Инфраструктура;25
+44;QA;Тестировал банковское приложение;Тестирование UI;10
+45;Data Science;Оценивал A/B тесты;Бизнес-аналитика;15
+46;NLP;Размечал текстовые данные;Лингвистика;20
+47;UI/UX;Работал над дизайн-системой;Интерфейсы;15
+48;GameDev;Создавал 2D платформер;Геймдизайн;20
+49;Cybersecurity;Участвовал в CTF;Сетевые атаки;25
+50;Frontend;Собирал React-приложение;SPA, UI;10
+51;Machine Learning;Работал с PyTorch;Нейросети;20
+52;Web;Верстал корпоративный сайт;Frontend;15
+53;Data Analytics;Анализировал продажи;Бизнес аналитика;20
+54;Android;Создавал ToDo приложение;Мобильные интерфейсы;10
+55;Backend;Писал сервисы на Go;Высокие нагрузки;20
+56;DevOps;Поднимал k8s кластер;Инфраструктура;30
+57;Machine Learning;Сегментация изображений;CV;25
+58;Frontend;Верстал админку;UX/UI;15
+59;UI/UX;Работал с пользовательскими сценариями;Юзабилити;10
+60;NLP;Делал анализ текста;Text Mining;15
+61;Cybersecurity;Изучал шифрование;Криптография;20
+62;Robotics;Разрабатывал PID контроллер;Мехатроника;25
+63;Data Science;Моделировал данные;ML;20
+64;QA;Писал auto-tests;Test Automation;10
+65;Backend;Поддерживал микросервисы;Backend архитектура;20
+66;Web;Создавал лендинг;Web-девелопмент;15
+67;Android;Финтех приложение;Мобильные UI;15
+68;DevOps;Работал с логированием;Мониторинг;20
+69;Data Engineering;Работал с Airflow;ETL и оркестрация;20
+70;GameDev;Создавал VR окружения;VR/AR;30
+71;Product Analytics;Оцифровывал метрики;Аналитика продукта;15
+72;Machine Learning;Обучал модели;ML pipelines;25
+73;Frontend;Работал с анимациями;UI/UX;10
+74;UI/UX;Создавал прототипы;UX Research;15
+75;Cybersecurity;Проводил аудит безопасности;ИБ;20
+76;NLP;Писал токенизатор;NLP инструменты;10
+77;Backend;Работал с Redis;Кэширование;20
+78;Data Science;Решал задачу кластеризации;ML;15
+79;Android;Делал учебные проекты;UI/UX;10
+80;DevOps;Работал с Jenkins;CI/CD;25
+81;QA;Разрабатывал тест-планы;UI test;15
+82;Web;Собирал SSR-приложения;Next.js;20
+83;Data Engineering;Работал с Hadoop;Big Data;25
+84;GameDev;Писал поведение NPC;AI;30
+85;UI/UX;Проводил интервью;User Research;10
+86;Machine Learning;Работал с Tabular данными;ML задачи;15
+87;Cybersecurity;Анализировал трафик;IDS/IPS;20
+88;Robotics;Делал управление колесным роботом;Системы управления;25
+89;Frontend;Разрабатывал Dashboard;UI;15
+90;Backend;Работал с gRPC;Микросервисы;20
+91;Data Analytics;Работал с Tableau;BI;10
+92;Data Engineering;Настраивал пайплайны;ETL;20
+93;Android;Работал с Firebase;Мобильная аналитика;10
+94;DevOps;Писал Terraform код;Cloud;25
+95;QA;Тестировал API;Integration Testing;10
+96;Machine Learning;Разрабатывал классификатор;ML;20
+97;Web;Работал с Bootstrap;Frontend;15
+98;Data Science;Визуализировал данные;EDA;10
+99;UI/UX;Делал пользовательские карты;UX;15
+100;Cybersecurity;Анализировал уязвимости;Веб-безопасность;20
+101;Backend;Писал микросервисы на Python;Архитектура сервисов;20
+102;Frontend;Верстал интерфейсы на React;UI/UX;15
+103;Data Science;Обрабатывал большие датасеты;ML;25
+104;Machine Learning;Разрабатывал модели регрессии;ML исследования;20
+105;Android;Собирал мобильное приложение;Kotlin;10
+106;DevOps;Настраивал CI/CD;Cloud орг.;25
+107;QA;Автоматизировал тесты;Quality Assurance;10
+108;Web;Делал новостной портал;Верстка;15
+109;Data Engineering;Работал с Airflow;Пайплайны данных;20
+110;Backend;Разрабатывал API на FastAPI;Микросервисы;15
+111;Frontend;Писал интерфейсы;SPA;10
+112;Data Science;Проводил анализ данных;A/B тесты;20
+113;Backend;Работал с SQL и Redis;Веб-сервисы;25
+114;Machine Learning;Пробовал LightGBM;ML задачи;15
+115;Android;Делал мессенджер;Mobile;10
+116;DevOps;Работал с Docker Compose;Cloud;20
+117;QA;Тестировал backend API;Тестирование;10
+118;Frontend;Создавал UI компоненты;React;15
+119;Backend;Поднимал Postgres;Базы данных;20
+120;Data Engineering;Поддерживал ETL;Big Data;25
+121;Data Science;Писал рекомендательные модели;ML;20
+122;Machine Learning;Сегментировал изображения;CV;25
+123;Web;Создавал лендинги;Frontend;10
+124;Backend;Проектировал архитектуру;Highload;30
+125;Frontend;Работал с TypeScript;UI;15
+126;Data Analytics;Работал с PowerBI;BI;10
+127;Backend;Делал Rest API;Web backend;20
+128;Machine Learning;Работал с Keras;Deep Learning;20
+129;Data Science;Обрабатывал табличные данные;ML pipeline;15
+130;Android;Кроссплатформенная разработка;Mobile apps;10
+131;DevOps;Настраивал логирование;Мониторинг;20
+132;Frontend;Адаптивная верстка;Веб интерфейсы;10
+133;Backend;Писал сервисы на Go;Highload;25
+134;Data Engineering;Работал с Spark;Big Data;25
+135;Machine Learning;Разрабатывал нейросети;Deep Learning;30
+136;Data Science;Проводил EDA;Data mining;20
+137;QA;Functional testing;Тестирование UI;15
+138;Web;SSR разработка;Next.js;15
+139;Frontend;Создавал анимации;UI;10
+140;Backend;Работал с очередями;RabbitMQ;20
+141;Data Engineering;Оптимизировал хранилища;ETL;20
+142;Data Science;Моделировал распределения;Статистика;25
+143;Machine Learning;Работал с NLP;Text analysis;20
+144;DevOps;CI/CD pipelines;Cloud;20
+145;QA;Писал автотесты;Selenium;10
+146;Frontend;Верстал админку;UI;15
+147;Backend;Работал с ORM;Backend;20
+148;Data Science;ML классификация;ML;15
+149;Android;Jetpack Compose;Mobile;15
+150;Web;HTML/CSS верстка;Web design;10
+151;Backend;Разрабатывал API;Backend services;20
+152;Data Engineering;Хранилища данных;ETL pipelines;25
+153;Machine Learning;Нейронные сети;ML;30
+154;Data Science;Feature engineering;ML;20
+155;QA;Работал с Jira;QA процессы;10
+156;DevOps;Обеспечение отказоустойчивости;DevOps практики;20
+157;Frontend;React + TS;Web UI;15
+158;Backend;FastAPI сервис;Микросервисы;25
+159;Web;SEO оптимизация;Web проекты;10
+160;Data Engineering;Airflow DAGs;ETL;20
+161;Machine Learning;Работал с данными;Model building;15
+162;Data Science;Визуализация;Data viz;10
+163;Android;Разработка UI;Mobile UX;10
+164;Backend;API интеграции;Backend;20
+165;QA;Тестировал мобильные приложения;Тестирование;15
+166;Frontend;Дизайн компонентов;UI/UX;10
+167;Data Science;ML регрессии;ML;20
+168;Machine Learning;Линейные модели;ML;15
+169;Backend;Работа с Docker;Dev backend;20
+170;DevOps;Kubernetes;Cloud DevOps;25
+171;Frontend;Работа с формами;UI forms;10
+172;Web;Разрабатывал блоги;Web;10
+173;Data Science;Оптимизировал модели;ML;15
+174;Backend;Проектирование БД;DB Design;20
+175;Machine Learning;Kaggle опыт;ML;30
+176;Data Engineering;Потоковые данные;Streaming;20
+177;Frontend;React hooks;Frontend;10
+178;QA;Test Automation;QA;15
+179;Backend;Go разработка;Backend;25
+180;Data Science;Text processing;NLP;20
+181;Machine Learning;PyTorch;Deep learning;20
+182;Web;Верстал интерфейсы;UI;15
+183;Data Engineering;Работа с Kafka;Streaming;25
+184;Backend;Система логирования;Backend;20
+185;Frontend;Vue.js компоненты;Frontend;10
+186;Data Science;Анализ временных рядов;ML;20
+187;Machine Learning;Оптимизация сети;DL;25
+188;DevOps;GitOps;DevOps;20
+189;QA;Unit tests;Тестирование;10
+190;Backend;GraphQL API;Backend;20
+191;Frontend;Сборка UI;Design systems;10
+192;Data Engineering;ETL трансформации;Data pipeline;20
+193;Web;Фронтенд разработка;Frontend;15
+194;Machine Learning;ML эксперименты;ML;30
+195;Data Science;Кластеризация;ML;15
+196;Backend;Microservices;Backend;20
+197;Frontend;Single Page Apps;Frontend;10
+198;Data Engineering;Data warehouse;Big Data;25
+199;Machine Learning;Модели классификации;ML;20
+200;Data Science;Фичи и препроцессинг;Data prep;15
+;;;;
