@@ -16,4 +16,4 @@ spring:
 
   # В DEV отключаем Flyway - пусть Hibernate управляет схемой
   flyway:
-    enabled: false  # ← ИЗМЕНИТЕ НА false
+    enabled: false
