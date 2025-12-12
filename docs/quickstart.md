@@ -16,7 +16,6 @@
 - [Запуск ML Сервиса](#запуск-ml-сервиса)
   - [Быстрый старт](#быстрый-старт)
   - [Детальные инструкции для разных ОС](#детальные-инструкции-для-разных-ос)
-  - [Docker-способ](#docker-способ)
   - [Проверка работоспособности](#проверка-работоспособности)
 - [Проверка интеграции](#проверка-интеграции)
 - [Устранение проблем](#устранение-проблем)
@@ -228,52 +227,19 @@ chmod +x run.sh
 ### 4. Через Docker
 
 #### Docker Compose
-Создайте файл `docker-compose.yml`:
+У нас есть 2 файла: docker-compose.yml с внутренней БД и docker-compose2.yml с внешней БД
+Тот вариант, который вы хотите использовать назовите docker-compose.yml
 
-```yaml
-version: '3.8'
+Все настройки есть в них, а также в файлах .env и 2 файлах Dockerfile: 1 в папке ML, другой в spring-boot-kotlin-STT
 
-services:
-  postgres:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: students_themes_db
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_USER: postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  app:
-    build: .
-    environment:
-      DATABASE_URL: jdbc:postgresql://postgres:5432/students_themes_db
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-dev}
-      PORT: 8080
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgres
-
-  ml-service:
-    build: ./ML
-    ports:
-      - "8000:8000"
-
-volumes:
-  postgres_data:
-```
+Для успешной работы поменяйте в .env переменные, DATABASE_URL (если он вам нужен) и POSTGRES_PASSWORD как требуется
 
 #### Запуск Docker Compose
 ```bash
-# Создайте файл .env
-echo "POSTGRES_PASSWORD=your_password" > .env
-echo "SPRING_PROFILES_ACTIVE=prod" >> .env
-
 # Запустите
 docker-compose up --build
+
+# Для очистки можете ввести: docker-compose down
 ```
 
 <a id="запуск-backend-приложения"></a>
@@ -376,45 +342,8 @@ pip install -r requirements.txt
 python main.py
 ```
 
-<a id="docker-способ"></a>
-### 3. Docker-способ
-
-#### Dockerfile
-```dockerfile
-FROM python:3.10-slim
-
-WORKDIR /app
-
-# Копируем файлы зависимостей
-COPY requirements.txt .
-
-# Устанавливаем зависимости
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Копируем исходный код
-COPY . .
-
-# Открываем порт
-EXPOSE 8000
-
-# Команда запуска
-CMD ["python", "main.py"]
-```
-
-#### Запуск в Docker
-```bash
-# Сборка образа
-docker build -t ml-service .
-
-# Запуск контейнера
-docker run -p 8000:8000 --name ml-service-container ml-service
-
-# Или с монтированием текущей директории (для разработки)
-docker run -p 8000:8000 -v $(pwd):/app ml-service
-```
-
 <a id="проверка-работоспособности"></a>
-### 4. Проверка работоспособности
+### 3. Проверка работоспособности
 
 После запуска проверьте:
 ```bash

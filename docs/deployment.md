@@ -1,10 +1,6 @@
 ## 🚀 Деплоймент
 
 - [Docker развертывание](#docker-развертывание)
-  - [Dockerfile для Backend](#dockerfile-для-backend)
-  - [Dockerfile для ML Service](#dockerfile-для-ml-service)
-  - [docker-compose.yml](#docker-compose-yml)
-  - [init-db.sql](#init-db-sql)
 - [Production настройки](#production-настройки)
   - [Переменные окружения для production](#переменные-окружения-для-production)
   - [Запуск в production](#запуск-в-production)
@@ -14,118 +10,20 @@
 
 ### <a id="docker-развертывание">Docker развертывание</a>
 
+#### Docker Compose
+У нас есть 2 файла: docker-compose.yml с внутренней БД и docker-compose2.yml с внешней БД
+Тот вариант, который вы хотите использовать назовите docker-compose.yml
 
-**<a id="dockerfile-для-backend">Dockerfile для Backend:</a>**
-```dockerfile
-FROM openjdk:17-jdk-slim
+Все настройки есть в них, а также в файлах .env и 2 файлах Dockerfile: 1 в папке ML, другой в spring-boot-kotlin-STT
 
-WORKDIR /app
+Для успешной работы поменяйте в .env переменные, DATABASE_URL (если он вам нужен) и POSTGRES_PASSWORD как требуется
 
-# Копирование JAR файла
-COPY build/libs/*.jar app.jar
+#### Запуск Docker Compose
+```bash
+# Запустите
+docker-compose up --build
 
-# Создание пользователя для безопасности
-RUN addgroup --system spring && adduser --system --ingroup spring spring
-USER spring:spring
-
-EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
-```
-
-**<a id="dockerfile-для-ml-service">Dockerfile для ML Service:</a>**
-```dockerfile
-FROM python:3.9-slim
-
-WORKDIR /app
-
-# Копирование requirements и установка зависимостей
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Копирование исходного кода
-COPY main.py .
-
-# Создание пользователя для безопасности
-RUN addgroup --system python && adduser --system --ingroup python python
-USER python:python
-
-EXPOSE 8000
-
-CMD ["python", "main.py"]
-```
-
-**<a id="docker-compose-yml">docker-compose.yml:</a>**
-```yaml
-version: '3.8'
-
-services:
-  postgres:
-    image: postgres:14
-    environment:
-      POSTGRES_DB: student_themes
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_INITDB_ARGS: "--encoding=UTF8"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  backend:
-    build: 
-      context: .
-      dockerfile: Dockerfile.backend
-    environment:
-      DATABASE_URL: jdbc:postgresql://postgres:5432/student_themes
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      ML_SERVICE_URL: http://ml-service:8000
-      SPRING_PROFILES_ACTIVE: prod
-      JAVA_OPTS: "-Xmx512m -Xms256m"
-    ports:
-      - "8080:8080"
-    depends_on:
-      postgres:
-        condition: service_healthy
-      ml-service:
-        condition: service_started
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/api/actuator/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  ml-service:
-    build:
-      context: ./ml-service
-      dockerfile: Dockerfile.ml
-    environment:
-      PYTHONUNBUFFERED: 1
-    ports:
-      - "8000:8000"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-volumes:
-  postgres_data:
-
-networks:
-  default:
-    name: student-themes-network
-```
-
-**<a id="init-db-sql">init-db.sql:</a>**
-```sql
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+# Для очистки можете ввести: docker-compose down
 ```
 
 ### <a id="production-настройки">Production настройки</a>
